@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>User Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <form action="/auth/user/create" method="POST">
+        {% csrf_token %}
+        {{ regform.as_p }}
+        <input type="submit" value="Register">
+    </form>
+    {% if messages %}
+    <div>
+        <h4>Error messages:</h4>
+        {% for m in messages %}
+        <p>
+            {{m}}
+        </p>
+        {% endfor %}
+    </div>
+    {% endif %}
+</body>
+</html>
