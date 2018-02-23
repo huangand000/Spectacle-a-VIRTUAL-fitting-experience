@@ -50,6 +50,7 @@
         </style>
 </head>
 <body>
+    <a href='/dashboard'>Home</a>
     <h2>Wide Selection of glasses here</h2>
     <div class='camera'>
         <video id='video'>Video Stream not available.</video>
@@ -63,8 +64,8 @@
     <a href='/dashboard/wishlist'>Go To Wish list</a>
     <a href='/dashboard/webcam'>Add to Wish list</a>
 
-
-
+    <a id='link'>Image</a>
+    {% csrf_token %}
     <script>
         (function() {
         // width and height of captured photo will be set here. The height will be
@@ -152,10 +153,66 @@
             canvas.height = height;
             context.drawImage(video, 0, 0, width, height);
             var data = canvas.toDataURL('image/png');
+            // var image = data.replace("image/png", "image/octet-stream");
+            // window.location.href=image
+            var link = document.getElementById('link');
+            link.setAttribute('download', "self-portrait.png");
+            link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
             photo.setAttribute('src', data);
+
+            function dataURItoBlob(dataURI) {
+                // convert base64/URLEncoded data component to raw binary data held in a string
+                var byteString;
+                if (dataURI.split(',')[0].indexOf('base64') >= 0)
+                    byteString = atob(dataURI.split(',')[1]);
+                else
+                    byteString = unescape(dataURI.split(',')[1]);
+
+                // separate out the mime component
+                var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+                // write the bytes of the string to a typed array
+                var ia = new Uint8Array(byteString.length);
+                for (var i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+               return new Blob([ia], {type:mimeString});
+            }
+            blob = dataURItoBlob(data)
+            fd = new FormData();
+            fd.append('fname', 'img.png');
+            fd.append("data", blob);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if(this.status == 200) {
+                    console.log("Received")
+                }
+            }
+            xhr.open("post", '/dashboard/process/');
+            var token = getCookie("csrftoken");
+            console.log(token);
+            xhr.setRequestHeader('X-CSRFToken', token);
+            xhr.send(fd);
+            function getCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for(var i = 0; i <ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }   
+        
         } else {
             clearphoto();
         }
+   
     }
 
     // Set up our event listener to run the startup process
