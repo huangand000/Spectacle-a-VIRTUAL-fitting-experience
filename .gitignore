@@ -1,6 +1,10 @@
 venv/
-.pyc
+*.pyc
 db.sqlite3
 .DS_Store
+
 projTwoOs/authApp/migrations/*
 !projTwoOs/authApp/migrations/__init__.py
+
+projTwoOs/dashboard_app/migrations/*
+!projTwoOs/dashboard_app/migrations/__init__.py
