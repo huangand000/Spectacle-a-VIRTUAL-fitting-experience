@@ -8,3 +8,6 @@ def index(request):
 
 def wishlist(request):
     return render(request, 'dashboard_app/wishlist.html')
+
+def webcam(request):
+    return render(request, 'dashboard_app/webcam.html')

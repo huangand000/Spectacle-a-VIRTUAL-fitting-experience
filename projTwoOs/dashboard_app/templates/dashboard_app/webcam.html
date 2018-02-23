@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #video {
+            border: 1px solid black;
+            box-shadow: 2px 2px 3px black;
+            width:320px;
+            height:240px;
+          }
+          
+          #photo {
+            border: 1px solid black;
+            box-shadow: 2px 2px 3px black;
+            width:320px;
+            height:240px;
+          }
+          
+          #canvas {
+            display:none;
+          }
+          
+          .camera {
+            width: 340px;
+            display:inline-block;
+          }
+          
+          .output {
+            width: 340px;
+            display:inline-block;
+          }
+          
+          #startbutton {
+            display:block;
+            position:relative;
+            margin-left:auto;
+            margin-right:auto;
+            bottom:32px;
+            background-color: blue;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            font-family: "Lucida Grande", "Arial", sans-serif;
+            color: rgba(255, 255, 255, 1.0);
+          }
+        </style>
+</head>
+<body>
+    <h2>Wide Selection of glasses here</h2>
+    <div class='camera'>
+        <video id='video'>Video Stream not available.</video>
+        <button id='startbutton'>Take photo</button>
+    </div>
+    <canvas id='canvas'></canvas>
+    <div class='output'>
+        <img id='photo' alt='The screen capture will appear in this box.'>
+    </div>
+
+    <a href='/dashboard/wishlist'>Go To Wish list</a>
+    <a href='/dashboard/webcam'>Add to Wish list</a>
+
+
+
+    <script>
+        (function() {
+        // width and height of captured photo will be set here. The height will be
+        // calculated based on the aspect ratio of input stream
+        var width = 320;    // Scale width of photo
+        var height = 0;     // Computed based on input stream
+
+        // Stream variable indicates whether or not we're currently streaming.
+        // Start at false, requires permission.
+
+        var streaming = false;
+
+        // HTML elements that will be set by startup()
+
+        var video = null;
+        var canvas = null;
+        var photo = null;
+        var startbutton = null;
+
+
+        // When page finished loading, run function to request
+        // access from user's webcam
+        function startup() {
+            // Grab all references of major elements listed above
+            video = document.getElementById('video');
+            canvas = document.getElementById('canvas');
+            photo = document.getElementById('photo');
+            startbutton = document.getElementById('startbutton');
+            
+            // Get media stream without audio
+            // Returns stream object as input if theres a compatible camera
+            // Otherwise throws error
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function(err) {
+                    console.log("An error occured! " + err);
+                });
+                
+            // Listens for if the webcam can play based on user's decision
+            // Only works for first time (Answers yes or no)
+            video.addEventListener('canplay', function(ev){
+            if (!streaming) {
+                height = video.videoHeight / (video.videoWidth/width);
+                video.setAttribute('width', width);
+                video.setAttribute('height', height);
+                canvas.setAttribute('width', width);
+                canvas.setAttribute('height', height);
+                streaming = true;
+            }
+            }, false);
+            
+            // Captures the photo everytime the start button is clicked
+            startbutton.addEventListener('click', function(ev){
+                takepicture();
+                ev.preventDefault();
+            }, false);
+            // Clears photo box
+            clearphoto();
+    }
+
+
+    // Creating an image, then converting it into a format usable by the
+    function clearphoto() {
+        var context = canvas.getContext('2d');
+        context.fillStyle = "#AAA";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        var data = canvas.toDataURL('image/png');
+        photo.setAttribute('src', data);
+    }
+  
+
+    // Captures photo by obtaining the current content of the video
+    // Draws it to the canvas
+    // Converts the drawing to PNG format
+    // Display in captured framebox
+
+    function takepicture() {
+        var context = canvas.getContext('2d');
+        if (width && height) {
+            canvas.width = width;
+            canvas.height = height;
+            context.drawImage(video, 0, 0, width, height);
+            var data = canvas.toDataURL('image/png');
+            photo.setAttribute('src', data);
+        } else {
+            clearphoto();
+        }
+    }
+
+    // Set up our event listener to run the startup process
+    // once loading is complete.
+    window.addEventListener('load', startup, false);
+    })();
+    </script>
+</body>
+</html>
