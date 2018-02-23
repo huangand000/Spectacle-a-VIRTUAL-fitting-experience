@@ -22,7 +22,7 @@ def register(request):
         regform = RegistrationForm(request.POST)
         if not regform.is_valid():
             print regform.errors
-            messages.warning(request, regform.errors)
+            messages.warning(request, regform.errors) 
             return redirect('/auth/register')
         print 'success'
         user = regform.save()

@@ -1,6 +1,6 @@
 {
     "python.venvPath": "${workspaceFolder}/venv/",
-    "python.pythonPath": "${workspaceFolder}/venv/bin/python",
+    "python.pythonPath": "/usr/bin/python2.7",
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
