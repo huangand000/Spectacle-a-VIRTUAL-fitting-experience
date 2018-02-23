@@ -52,10 +52,18 @@
 <body>
     <a href='/dashboard'>Home</a>
     <h2>Wide Selection of glasses here</h2>
-    <div class='camera'>
+    <!-- <div class='camera'>
         <video id='video'>Video Stream not available.</video>
         <button id='startbutton'>Take photo</button>
-    </div>
+    </div> -->
+
+    <form class='camera' action='/dashboard/process/' method='post'>
+        <video id='video'>Video Stream not available.</video>
+        <input name='image_info' id='image' type='text' value='yo'>
+        <input id='startbutton' type='submit' value="Take Picture">
+    </form>
+
+
     <canvas id='canvas'></canvas>
     <div class='output'>
         <img id='photo' alt='The screen capture will appear in this box.'>
@@ -160,28 +168,36 @@
             link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
             photo.setAttribute('src', data);
 
-            function dataURItoBlob(dataURI) {
-                // convert base64/URLEncoded data component to raw binary data held in a string
-                var byteString;
-                if (dataURI.split(',')[0].indexOf('base64') >= 0)
-                    byteString = atob(dataURI.split(',')[1]);
-                else
-                    byteString = unescape(dataURI.split(',')[1]);
+            var image = document.getElementById('image');
+            // image.setAttribute('value',canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
 
-                // separate out the mime component
-                var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
-                // write the bytes of the string to a typed array
-                var ia = new Uint8Array(byteString.length);
-                for (var i = 0; i < byteString.length; i++) {
-                    ia[i] = byteString.charCodeAt(i);
-                }
-               return new Blob([ia], {type:mimeString});
-            }
-            blob = dataURItoBlob(data)
+
+            // function dataURItoBlob(dataURI) {
+            //     // convert base64/URLEncoded data component to raw binary data held in a string
+            //     var byteString;
+            //     if (dataURI.split(',')[0].indexOf('base64') >= 0)
+            //         byteString = atob(dataURI.split(',')[1]);
+            //     else
+            //         byteString = unescape(dataURI.split(',')[1]);
+
+            //     // separate out the mime component
+            //     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+            //     // write the bytes of the string to a typed array
+            //     var ia = new Uint8Array(byteString.length);
+            //     for (var i = 0; i < byteString.length; i++) {
+            //         ia[i] = byteString.charCodeAt(i);
+            //     }
+            //    return new Blob([ia], {type:mimeString});
+            // }
+            // blob = dataURItoBlob(data)
+            // console.log(blob)
+
+
             fd = new FormData();
-            fd.append('fname', 'img.png');
-            fd.append("data", blob);
+            fd.append('data', data);
+
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if(this.status == 200) {
@@ -193,6 +209,7 @@
             console.log(token);
             xhr.setRequestHeader('X-CSRFToken', token);
             xhr.send(fd);
+            
             function getCookie(cname) {
                 var name = cname + "=";
                 var decodedCookie = decodeURIComponent(document.cookie);

@@ -13,5 +13,6 @@ def webcam(request):
     return render(request, 'dashboard_app/webcam.html')
 
 def process(request):
-    print "yo'"
+    request.session['image'] = request.POST['data']
+    print request.session['image']
     return redirect('/dashboard/webcam')
