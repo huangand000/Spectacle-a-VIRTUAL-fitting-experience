@@ -9,3 +9,8 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     name = models.CharField(max_length=100)
+    def check_password(self, raw_password):
+        if self.password == raw_password:
+            return True
+        else:
+            return False

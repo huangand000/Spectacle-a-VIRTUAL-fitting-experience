@@ -115,7 +115,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+# customizations:
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+
 AUTH_USER_MODEL = 'authApp.User'
+
+LOGIN_URL = '/autb/login'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
