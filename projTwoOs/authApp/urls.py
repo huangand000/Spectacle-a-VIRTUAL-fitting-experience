@@ -8,8 +8,9 @@ urlpatterns = [
     url(r'^$', lambda req: redirect('/auth/register')),
 
     # routes that render htmls
-    url(r'^register$', views.register_page),
+    url(r'^register$', views.register),
+    url(r'^login$', views.login_page),
 
     # routes that don't render htmls
-    url(r'^user/create$', views.register),
+    url(r'^user/login$', views.login),
 ]

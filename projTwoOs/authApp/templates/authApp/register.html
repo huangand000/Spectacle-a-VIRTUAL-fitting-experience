@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>User Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <form action="/auth/register" method="POST">
+        {% csrf_token %}
+        {% for field in regform %}
+        <p>
+            {{field.label}}:
+            <br />
+            {{field}}
+            {% if field.help_text %}
+            <p>{{field.help_text}}</p>
+            {% endif %}
+            {% if field.errors %}
+            <p>{{ field.errors }}</p>
+            {% endif %}
+        </p>
+        {% endfor %}
+        <input type="submit" value="Register">
+    </form>
+    {% for error in regform.non_field_errors %}
+    <p>
+        {{error}}
+    </p>
+    {% endfor %}
+    <p>
+        Have an account already? <a href='/auth/login'>Click here to log in.</a>
+    </p>
+</body>
+</html>

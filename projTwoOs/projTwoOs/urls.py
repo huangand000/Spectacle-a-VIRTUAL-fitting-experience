@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^$', lambda req: redirect('/auth')),
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('authApp.urls')),
-    url(r'^dashboard/', include('dashboard_app.urls'))
+    url(r'^dashboard/', include('dashboard_app.urls')),
 ]

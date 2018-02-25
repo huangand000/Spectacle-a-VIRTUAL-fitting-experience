@@ -3,15 +3,21 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>User Registration</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <form action="/auth/user/create" method="POST">
+    <form action='/auth/user/login' method='post'>
         {% csrf_token %}
-        {{ regform.as_p }}
-        <input type="submit" value="Register">
+        <input type='text' name='username' placeholder="Username" />
+        <br />
+        <input type="password" name="password" placeholder="Password" />
+        <br />
+        <input type="submit" value="Login">
     </form>
+    <p>
+        Don't have an account? <a href='/auth/register'>Click here to register.</a>
+    </p>
     {% if messages %}
     <div>
         <h4>Error messages:</h4>
