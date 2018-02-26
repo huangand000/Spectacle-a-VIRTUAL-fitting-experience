@@ -8,12 +8,14 @@
 </head>
 <body>
     <a href='/dashboard'>Home</a>
-    <h2>Your Wish list</h2>
+    <h2>{{request.user.name}}'s Wish list</h2>
     <h2>Pic of glasses</h2>
+    {% for g in glasses %}
     <ul>
-        <li>Glasses Name/Description</li>
+        <li>{{g.name}}</li>
         <li>Cost</li>
         <li>Store/Location</li>
     </ul>
+    {% endfor %}
 </body>
 </html>

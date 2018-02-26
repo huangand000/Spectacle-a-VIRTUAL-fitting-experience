@@ -279,12 +279,14 @@
             .camera{
                 text-align: center;
             }
-            #startbutton{
+            button{
                 width: 412px;
                 height: 40px;
                 color: grey;
                 border-radius: 10px;
                 margin-top: 10px;
+                margin-left: 515px;
+                display: block;
             }
         </style>
 
@@ -297,7 +299,7 @@
 
         <nav>
             <a href='/dashboard'>Home</a>
-            <a href='/auth/logout'>Logout</a>
+            <a style='float:right;'href='/auth/logout'>Logout</a>
         </nav>
         <p class="learn">
             Try on Glasses
@@ -306,14 +308,15 @@
         <div class='camera'>
             <canvas id='source' width="400" height="320" class="mask" src='/static/dashboard_app/img/mask.png'></canvas>
             <button onclick='capture()'id='startbutton'>Take photo</button>
+            <button id='save'>Save to Wish list</button>
+            <p id='saved'></p>
         </div>
-        <canvas id='destination'></canvas>
-        <div class='output'>
-        <img id='photo' src="data:image/png;base64,dataURL" alt='The screen capture will appear in this box' >
-    </div>
-    <script src="/static/dashboard_app/js/ccv.js"></script>
-    <script src="/static/dashboard_app/js/face.js"></script>
-        </div>
+        <form action='/dashboard/wishlist/'>
+            <button>Go to Wish List</button>
+        </form>
+        <img id='photo'>
+        <script src="/static/dashboard_app/js/ccv.js"></script>
+        <script src="/static/dashboard_app/js/face.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
         <script>
             // Normalize getUserMedia and URL
@@ -323,7 +326,6 @@
 
             //normalize navigator.getUserMedia
             navigator.getUserMedia || (navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-
             if (typeof navigator.getUserMedia === "function") {
 
                 (function() {
@@ -348,14 +350,28 @@
                         url: '/dashboard/get_glasses/',
                         method: 'post',
                         success: function(serverResponse) {
-                            console.log(serverResponse)
                             for (var i in serverResponse) {
                                 $('#selection').append("<a  ><img id='"+serverResponse[i]+"' style='height:100px;width:100px' src='/static/dashboard_app/img/"+ serverResponse[i]+"'></a>");
                             }
                         }
                     });
+                    var id = ''
                     $('#selection').on('click', "img", function() {
-                        mask.src = "/static/dashboard_app/img/" + this.id;
+                        id = this.id
+                        mask.src = "/static/dashboard_app/img/" + id;
+                    });
+
+                    $("#save").on('click', function() {
+                        console.log(id)
+                        $.ajax({
+                            url: '/dashboard/wishlist_process/',
+                            method: 'post',
+                            data: {"route":id},
+                            success: function(serverResponse) {
+                                $("#saved").html("Saved "+id+" in Wish List");
+                                // Add saved to webpage
+                            }
+                        })
                     });
                     context.fillStyle = "rgba(0, 0, 200, 0.5)";
                     navigator.getUserMedia(gUMOptions, handleWebcamStream, errorStartingStream);
@@ -455,17 +471,12 @@
             }
         </script>
         <script>
-                function capture(){
+            function capture(){
                 var canvas = document.getElementById('source');
                 var dataURL = canvas.toDataURL();
-                // console.log(dataURL)
                 var ps = document.getElementById("photo")
                 ps.setAttribute("src",dataURL)
-                return dataURL
-                // console.log(dataURL);
-                // "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNby
-                // blAAAADElEQVQImWNgoBMAAABpAAFEI8ARAAAAAElFTkSuQmCC"
-                }
+            }
             </script>
     </body>
  </html> 

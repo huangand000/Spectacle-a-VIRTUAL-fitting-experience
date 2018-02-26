@@ -17,7 +17,20 @@ def index(request):
 
 @login_required()
 def wishlist(request):
-    return render(request, 'dashboard_app/wishlist.html')
+    u = User.objects.get(id=request.user.id)
+    user_glasses = {
+        'glasses': u.glasses.all()
+    }
+    return render(request, 'dashboard_app/wishlist.html', user_glasses)
+
+@csrf_exempt
+def wishlist_process(request):
+    route = request.POST.get('route')
+    g = Glasses.objects.get(route=route)
+    g.users.add(request.user)
+    g.save()
+    print g.name
+    return HttpResponse('')
 
 @login_required()
 def webcam(request):

@@ -42,7 +42,7 @@ def login(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            ulogin(requesst, user)
+            ulogin(request, user)
             return redirect('/dashboard')
         else:
             messages.error(request, 'failed to login')
