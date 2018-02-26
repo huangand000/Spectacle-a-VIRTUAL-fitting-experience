@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 from authApp.models import User
 from .models import Glasses
 from django.shortcuts import render, HttpResponse, redirect
-
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 from forms import *
 
@@ -24,6 +25,14 @@ def webcam(request):
         'glasses': Glasses.objects.all()
     }
     return render(request, 'dashboard_app/webcam.html', glasses)
+
+@csrf_exempt
+def get_glasses(request):
+    dict = {}
+    glasses = Glasses.objects.all()
+    for g in glasses:
+        dict[g.id] = g.route
+    return JsonResponse(dict)
 
 @login_required()
 def process(request, id):

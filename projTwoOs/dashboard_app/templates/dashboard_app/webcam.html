@@ -253,7 +253,7 @@
         <link rel="stylesheet" href="/static/dashboard_app/css/experiment-styles.css" />
         <link rel="stylesheet" href="/static/dashboard_app/css/experiment.css" />
         <style>
-            .selection{
+            #selection{
                 border: 3px solid grey;
                 border-bottom-left-radius: 10px;
                 border-bottom-right-radius: 10px;
@@ -296,11 +296,7 @@
         <p class="learn">
             Try on Glasses
         </p>
-        <div class='selection'>
-            {% for g in glasses %}
-            <a href='/dashboard/process/{{g.id}}' ><img style='height:100px;width:100px' src='/static/dashboard_app/img/{{g.route}}'></a>
-            {% endfor %}
-        </div>
+        <div id='selection'></div>
         <div class='camera'>
             <canvas id='source' width="400" height="320" class="mask" src='/static/dashboard_app/img/mask.png'></canvas>
             <button conclick='takepicture()'id='startbutton'>Take photo</button>
@@ -316,7 +312,15 @@
         <script>
             // Normalize getUserMedia and URL
             // https://gist.github.com/f2ac64ed7fc467ccdfe3
+            $.ajax({
+                url: '/dashboard/get_glasses/',
+                method: 'post',
+                success: function(serverResponse) {
+                    for (var i in serverResponse)
+                    $('#selection').append("<a href='/dashboard/process/"+ i +"' ><img style='height:100px;width:100px' src='/static/dashboard_app/img/"+ serverResponse[i]+"'></a>")
 
+                }
+            })
             //normalize window.URL
             window.URL || (window.URL = window.webkitURL || window.msURL || window.oURL);
 
@@ -440,27 +444,6 @@
 
                 })();
             }
-            // sourceCanvas = document.getElementById('source');
-            // destinationCanvas = document.getElementById('destination');
-          
-            // sourceImage = new Image();
-            // var data = sourceCanvas.toDataURL('image/png')
-            // console.log(data)
-            // sourceImage.src = data
-
-            // ctx = sourceCanvas.getContext('2d');
-            // ctx.drawImage(sourceImage, 0, 0);
-
-            // var context = sourceCanvas.getContext('2d');
-        
-
-            // var video = document.getElementById('source')
-            // context.drawImage(video, 0, 0, 200, 200);
-            // var data = sourceCanvas.toDataURL('image/png');
-            // // var image = data.replace("image/png", "image/octet-stream");
-            // // window.location.href=image
-            // var link = document.getElementById('link');
-            // destinationCanvas.setAttribute('src', data);
         </script>
     </body>
  </html> 

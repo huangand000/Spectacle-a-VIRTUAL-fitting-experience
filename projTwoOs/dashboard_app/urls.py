@@ -5,5 +5,7 @@ urlpatterns = [
     url(r'^wishlist/$', views.wishlist),
     url(r'^webcam/$', views.webcam),
     url(r'^process/(?P<id>\d+)$', views.process),
-    url(r'^save_process/', views.save_process)
+    url(r'^save_process/', views.save_process),
+    url(r'^get_glasses/', views.get_glasses),
+
 ]
