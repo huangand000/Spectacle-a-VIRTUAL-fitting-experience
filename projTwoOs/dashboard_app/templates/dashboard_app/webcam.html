@@ -318,15 +318,6 @@
         <script>
             // Normalize getUserMedia and URL
             // https://gist.github.com/f2ac64ed7fc467ccdfe3
-            $.ajax({
-                url: '/dashboard/get_glasses/',
-                method: 'post',
-                success: function(serverResponse) {
-                    for (var i in serverResponse)
-                    $('#selection').append("<a href='/dashboard/process/"+ i +"' ><img style='height:100px;width:100px' src='/static/dashboard_app/img/"+ serverResponse[i]+"'></a>")
-
-                }
-            })
             //normalize window.URL
             window.URL || (window.URL = window.webkitURL || window.msURL || window.oURL);
 
@@ -353,7 +344,19 @@
                         gUMOptions = {video: true, toString: function(){ return "video"; }};
 
                     video.setAttribute('autoplay', true);
-                    mask.src = "/static/dashboard_app/img/{{request.session.g_route}}";
+                    $.ajax({
+                        url: '/dashboard/get_glasses/',
+                        method: 'post',
+                        success: function(serverResponse) {
+                            console.log(serverResponse)
+                            for (var i in serverResponse) {
+                                $('#selection').append("<a  ><img id='"+serverResponse[i]+"' style='height:100px;width:100px' src='/static/dashboard_app/img/"+ serverResponse[i]+"'></a>");
+                            }
+                        }
+                    });
+                    $('#selection').on('click', "img", function() {
+                        mask.src = "/static/dashboard_app/img/" + this.id;
+                    });
                     context.fillStyle = "rgba(0, 0, 200, 0.5)";
                     navigator.getUserMedia(gUMOptions, handleWebcamStream, errorStartingStream);
 
