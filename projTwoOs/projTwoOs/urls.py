@@ -18,9 +18,16 @@ from django.contrib import admin
 
 from django.shortcuts import redirect
 
+
+def index_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('/auth')
+    else:
+        return redirect('/dashboard')
+
 urlpatterns = [
     url(r'^$', lambda req: redirect('/auth')),
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('authApp.urls')),
-    url(r'^dashboard/', include('dashboard_app.urls'))
+    url(r'^dashboard/', include('dashboard_app.urls')),
 ]
