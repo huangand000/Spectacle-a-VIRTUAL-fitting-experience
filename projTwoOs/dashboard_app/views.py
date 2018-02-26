@@ -5,6 +5,10 @@ from django.shortcuts import render, HttpResponse, redirect
 
 from django.contrib.auth.decorators import login_required
 
+from forms import *
+
+from image_handler import save_image
+
 @login_required()
 def index(request):
     return render(request, 'dashboard_app/index.html')
@@ -19,6 +23,14 @@ def webcam(request):
 
 @login_required()
 def process(request):
-    request.session['image'] = request.POST['data']
-    print request.session['image']
-    return redirect('/dashboard/webcam')
+    if request.method == 'POST':
+        print 'arrived'
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            print 'a1'
+            save_image(request.FILES['file'])# handle file
+            return HttpResponse('file uploaded')
+        else:
+            print form.errors
+    return HttpResponse('failed')
+
