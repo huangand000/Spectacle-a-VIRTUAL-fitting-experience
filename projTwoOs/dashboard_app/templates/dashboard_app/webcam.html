@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
+    First draft
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -50,30 +51,29 @@
         </style>
 </head>
 <body>
+    <h1>{{glasses1.route}} </h1>
+    {% load static %}
+    <img src="{% static '/dashboard_app/img/rayban.png' %}">
+    <img src="{{glasses1.route}}">
+    {% load static %}
     <a href='/dashboard'>Home</a>
     <h2>Wide Selection of glasses here</h2>
-    <!-- <div class='camera'>
+    <div class='camera'>
         <video id='video'>Video Stream not available.</video>
         <button id='startbutton'>Take photo</button>
-    </div> -->
-
-    <form class='camera' action='/dashboard/process/' method='post'>
-        <video id='video'>Video Stream not available.</video>
-        <input name='image_info' id='image' type='text' value='yo'>
-        <input id='startbutton' type='submit' value="Take Picture">
-    </form>
-
-
+    </div>
     <canvas id='canvas'></canvas>
     <div class='output'>
         <img id='photo' alt='The screen capture will appear in this box.'>
     </div>
+    <img src={{request.session.image}}>
 
     <a href='/dashboard/wishlist'>Go To Wish list</a>
     <a href='/dashboard/webcam'>Add to Wish list</a>
 
     <a id='link'>Image</a>
     {% csrf_token %}
+
     <script>
         (function() {
         // width and height of captured photo will be set here. The height will be
@@ -239,3 +239,223 @@
     </script>
 </body>
 </html>
+ -->
+
+
+ <!DOCTYPE html>
+ <html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <title>Masks, face detection, canvas and webcams &mdash; Paul Hayes</title>
+        <meta name="author" content="Paul Hayes" />
+        <link rel="stylesheet" href="/static/dashboard_app/css/experiment-styles.css" />
+        <link rel="stylesheet" href="/static/dashboard_app/css/experiment.css" />
+        <style>
+            .selection{
+                border: 3px solid grey;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+                position: relative;
+                bottom: 26px;
+            }
+
+            .learn{
+                font-size: 20pt;
+                font-weight: bold;
+                color: black;
+                border: 3px solid grey;
+
+            }
+
+            .mask{
+                border: 3px solid grey;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+
+            }
+
+            .camera{
+                text-align: center;
+            }
+            #startbutton{
+                width: 412px;
+                height: 40px;
+                color: grey;
+                border-radius: 10px;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body class="experiment">
+        <p class="learn">
+            Try on Glasses
+        </p>
+        <div class='selection'>
+            {% for g in glasses %}
+            <a href='/dashboard/process/{{g.id}}' ><img style='height:100px;width:100px' src='/static/dashboard_app/img/{{g.route}}'></a>
+            {% endfor %}
+        </div>
+        <div class='camera'>
+            <canvas id='source' width="400" height="320" class="mask" src='/static/dashboard_app/img/mask.png'></canvas>
+            <button conclick='takepicture()'id='startbutton'>Take photo</button>
+        </div>
+        <canvas id='destination'></canvas>
+        <div class='output'>
+        <img id='photo' alt='The screen capture will appear in this box'>
+    </div>
+    <script src="/static/dashboard_app/js/ccv.js"></script>
+    <script src="/static/dashboard_app/js/face.js"></script>
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script>
+            // Normalize getUserMedia and URL
+            // https://gist.github.com/f2ac64ed7fc467ccdfe3
+
+            //normalize window.URL
+            window.URL || (window.URL = window.webkitURL || window.msURL || window.oURL);
+
+            //normalize navigator.getUserMedia
+            navigator.getUserMedia || (navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+
+            if (typeof navigator.getUserMedia === "function") {
+
+                (function() {
+
+                    var video = document.createElement('video'),
+                        content = document.querySelector('.transforming-content'),
+                        canvas = document.querySelector('canvas'),
+                        context = canvas.getContext('2d'),
+                        mask = new Image(),
+                        originalFace,
+
+                        // Quick hack for two experiment types
+                        SCALE_EXPERIMENT = 'scale',
+                        MASK_EXPERIMENT = 'mask',
+                        experimentType = /mask/.test(canvas.className) ? MASK_EXPERIMENT : SCALE_EXPERIMENT,
+
+                        // toString for older gUM implementation, see comments on https://gist.github.com/f2ac64ed7fc467ccdfe3
+                        gUMOptions = {video: true, toString: function(){ return "video"; }};
+
+                    video.setAttribute('autoplay', true);
+                    mask.src = "/static/dashboard_app/img/{{request.session.g_route}}";
+                    context.fillStyle = "rgba(0, 0, 200, 0.5)";
+                    navigator.getUserMedia(gUMOptions, handleWebcamStream, errorStartingStream);
+
+                    function handleWebcamStream(stream) {
+
+                        video.src = (window.URL && window.URL.createObjectURL) ? window.URL.createObjectURL(stream) : stream;
+                        processWebcamVideo();
+                    }
+
+                    function errorStartingStream() {
+                        alert('Uh-oh, the webcam didn\'t start. Do you have a webcam? Did you give it permission? Refresh to try again.');
+                    }
+
+                    function processWebcamVideo() {
+
+                        var startTime = +new Date(),
+                            changed = false,
+                            scaleFactor = 1,
+                            faces;
+
+                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        faces = detectFaces();
+
+                        if(experimentType === MASK_EXPERIMENT) {
+                            drawMasks(faces);
+                        } else {
+                            highlightFaces(faces);
+
+                            if(originalFace && faces.length > 0) {
+                                scaleContent(faces[0]);
+                            }
+
+                            if( ! originalFace && faces.length === 1) {
+                                originalFace = faces[0];
+                            }
+                        }
+
+                        // Log process time
+                        // console.log(+new Date() - startTime);
+
+                        // And repeat.
+                        setTimeout(processWebcamVideo, 50);
+                    }
+
+                    function detectFaces() {
+                        // What do these parameters mean?
+                        // I couldn't find any documentation, and used what was found here:
+                        // https://github.com/liuliu/ccv/blob/unstable/js/index.html
+
+                        return ccv.detect_objects({canvas : (ccv.pre(canvas)), cascade: cascade, interval: 2, min_neighbors: 1});
+                    }
+
+                    // Draw found faces onto the canvas
+                    function highlightFaces(faces) {
+                        if(!faces) {
+                            return false;
+                        }
+
+                        for (var i = 0; i < faces.length; i++) {
+                            var face = faces[i];
+                            context.fillRect(face.x, face.y, face.width, face.height);
+                        }
+                    }
+
+                    function drawMasks(faces) {
+                        if(!faces) {
+                            return false;
+                        }
+
+                        for (var i = 0; i < faces.length; i++) {
+                            var face = faces[i];
+                            context.drawImage(mask, face.x * 0.9, face.y * 0.9, face.width * 1.3, face.height * 1.3);
+                        }
+                    }
+
+                    function scaleContent(newFace) {
+                        var scaleFactor = originalFace.height / newFace.height;
+                        content.style.setProperty('-o-transform', 'scale('+scaleFactor+')');
+                        content.style.setProperty('-webkit-transform', 'scale('+scaleFactor+')');
+                    }
+
+                    /* Face object example:
+                    {
+                        confidence: 0.16752329000000035,
+                        height: 48.500000000000014,
+                        neighbors: 1,
+                        width: 48.500000000000014,
+                        x: 80.50000000000001,
+                        y: 104.50000000000003
+                    }
+                    */
+
+
+
+                })();
+            }
+            sourceCanvas = document.getElementById('source');
+            destinationCanvas = document.getElementById('destination');
+          
+            sourceImage = new Image();
+            var data = sourceCanvas.toDataURL('image/png')
+            console.log(data)
+            sourceImage.src = data
+
+            ctx = sourceCanvas.getContext('2d');
+            ctx.drawImage(sourceImage, 0, 0);
+
+            var context = sourceCanvas.getContext('2d');
+        
+
+            var video = document.getElementById('source')
+            context.drawImage(video, 0, 0, 200, 200);
+            var data = sourceCanvas.toDataURL('image/png');
+            // var image = data.replace("image/png", "image/octet-stream");
+            // window.location.href=image
+            var link = document.getElementById('link');
+            destinationCanvas.setAttribute('src', data);
+        </script>
+    </body>
+ </html> 

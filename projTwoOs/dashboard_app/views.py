@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from authApp.models import User
+from .models import Glasses
 from django.shortcuts import render, HttpResponse, redirect
 
 def index(request):
@@ -10,9 +11,12 @@ def wishlist(request):
     return render(request, 'dashboard_app/wishlist.html')
 
 def webcam(request):
-    return render(request, 'dashboard_app/webcam.html')
+    glasses = {
+        'glasses': Glasses.objects.all()
+    }
+    return render(request, 'dashboard_app/webcam.html', glasses)
 
-def process(request):
-    request.session['image'] = request.POST['data']
-    print request.session['image']
+def process(request, id):
+    g = Glasses.objects.get(id=id)
+    request.session['g_route'] = g.route
     return redirect('/dashboard/webcam')
