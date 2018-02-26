@@ -440,27 +440,27 @@
 
                 })();
             }
-            sourceCanvas = document.getElementById('source');
-            destinationCanvas = document.getElementById('destination');
+            // sourceCanvas = document.getElementById('source');
+            // destinationCanvas = document.getElementById('destination');
           
-            sourceImage = new Image();
-            var data = sourceCanvas.toDataURL('image/png')
-            console.log(data)
-            sourceImage.src = data
+            // sourceImage = new Image();
+            // var data = sourceCanvas.toDataURL('image/png')
+            // console.log(data)
+            // sourceImage.src = data
 
-            ctx = sourceCanvas.getContext('2d');
-            ctx.drawImage(sourceImage, 0, 0);
+            // ctx = sourceCanvas.getContext('2d');
+            // ctx.drawImage(sourceImage, 0, 0);
 
-            var context = sourceCanvas.getContext('2d');
+            // var context = sourceCanvas.getContext('2d');
         
 
-            var video = document.getElementById('source')
-            context.drawImage(video, 0, 0, 200, 200);
-            var data = sourceCanvas.toDataURL('image/png');
-            // var image = data.replace("image/png", "image/octet-stream");
-            // window.location.href=image
-            var link = document.getElementById('link');
-            destinationCanvas.setAttribute('src', data);
+            // var video = document.getElementById('source')
+            // context.drawImage(video, 0, 0, 200, 200);
+            // var data = sourceCanvas.toDataURL('image/png');
+            // // var image = data.replace("image/png", "image/octet-stream");
+            // // window.location.href=image
+            // var link = document.getElementById('link');
+            // destinationCanvas.setAttribute('src', data);
         </script>
     </body>
  </html> 
