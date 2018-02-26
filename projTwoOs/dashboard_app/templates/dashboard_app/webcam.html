@@ -287,8 +287,14 @@
                 margin-top: 10px;
             }
         </style>
-    </head>
-    <body class="experiment">
+
+    </body>
+  </html>     
+
+</head>
+    <body class="experiment" >
+        <!-- <button onclick="capture()">Click me</button> -->
+
         <nav>
             <a href='/dashboard'>Home</a>
             <a href='/auth/logout'>Logout</a>
@@ -299,11 +305,11 @@
         <div id='selection'></div>
         <div class='camera'>
             <canvas id='source' width="400" height="320" class="mask" src='/static/dashboard_app/img/mask.png'></canvas>
-            <button conclick='takepicture()'id='startbutton'>Take photo</button>
+            <button onclick='capture()'id='startbutton'>Take photo</button>
         </div>
         <canvas id='destination'></canvas>
         <div class='output'>
-        <img id='photo' alt='The screen capture will appear in this box'>
+        <img id='photo' src="data:image/png;base64,dataURL" alt='The screen capture will appear in this box' >
     </div>
     <script src="/static/dashboard_app/js/ccv.js"></script>
     <script src="/static/dashboard_app/js/face.js"></script>
@@ -445,5 +451,18 @@
                 })();
             }
         </script>
+        <script>
+                function capture(){
+                var canvas = document.getElementById('source');
+                var dataURL = canvas.toDataURL();
+                // console.log(dataURL)
+                var ps = document.getElementById("photo")
+                ps.setAttribute("src",dataURL)
+                return dataURL
+                // console.log(dataURL);
+                // "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNby
+                // blAAAADElEQVQImWNgoBMAAABpAAFEI8ARAAAAAElFTkSuQmCC"
+                }
+            </script>
     </body>
  </html> 
