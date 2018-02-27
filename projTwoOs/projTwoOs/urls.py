@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('authApp.urls')),
     url(r'^dashboard/', include('dashboard_app.urls')),
+    url(r'^chatbot/', include('chatbot.urls')),
 ]
