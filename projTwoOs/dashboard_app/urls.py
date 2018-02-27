@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^process/(?P<id>\d+)$', views.process),
     url(r'^save_process/', views.save_process),
     url(r'^get_glasses/', views.get_glasses),
+    url(r'^find_store/', views.find_store),
 
 ]
