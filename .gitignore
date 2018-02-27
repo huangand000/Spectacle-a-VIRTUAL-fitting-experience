@@ -4,6 +4,7 @@ venv/
 version/
 
 projTwoOs/db.sqlite3
+projTwoOs/static/snapshots/*
 
 projTwoOs/authApp/migrations/*
 !projTwoOs/authApp/migrations/__init__.py
