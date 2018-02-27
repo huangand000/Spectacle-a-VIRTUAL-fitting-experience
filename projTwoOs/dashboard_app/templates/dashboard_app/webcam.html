@@ -351,23 +351,24 @@
                         method: 'post',
                         success: function(serverResponse) {
                             for (var i in serverResponse) {
-                                $('#selection').append("<a  ><img id='"+serverResponse[i]+"' style='height:100px;width:100px' src='/static/dashboard_app/img/"+ serverResponse[i]+"'></a>");
+                                $('#selection').append("<a  ><img id='"+i+"' style='height:100px;width:100px' src='/static/dashboard_app/img/"+ serverResponse[i]+"'></a>");
+                                $('#selection').data('name', serverResponse[i]);
                             }
                         }
                     });
                     var id = ''
                     $('#selection').on('click', "img", function() {
                         id = this.id
-                        mask.src = "/static/dashboard_app/img/" + id;
+                        mask.src = "/static/dashboard_app/img/" + $('#selection').data('name');
                     });
 
                     $("#save").on('click', function() {
                         $.ajax({
                             url: '/dashboard/wishlist_process/',
                             method: 'post',
-                            data: {"route":id},
+                            data: {"glasses_id":id},
                             success: function(serverResponse) {
-                                $("#saved").html("Saved "+id+" in Wish List");
+                                $("#saved").html("Saved "+$('#selection').data('name')+" in Wish List");
                                 // Add saved to webpage
                             }
                         })

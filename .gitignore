@@ -3,6 +3,8 @@ venv/
 .DS_Store
 version/
 
+projTwoOs/db.sqlite3
+
 projTwoOs/authApp/migrations/*
 !projTwoOs/authApp/migrations/__init__.py
 
