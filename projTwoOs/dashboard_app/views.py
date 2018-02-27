@@ -21,6 +21,8 @@ def wishlist(request):
     user_glasses = {
         'glasses': u.glasses.all()
     }
+
+    Snapshot.file_upload.create(file = "", user = User.objecst.get(id=id))
     return render(request, 'dashboard_app/wishlist.html', user_glasses)
 
 @csrf_exempt
