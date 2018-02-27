@@ -76,3 +76,6 @@ def save_snapshot(request):
             print form.errors
     return HttpResponse('failed')
 
+@login_required()
+def find_store(request):
+    return HttpResponse('store!')
