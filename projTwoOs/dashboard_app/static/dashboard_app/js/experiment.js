@@ -27,7 +27,7 @@ if (typeof navigator.getUserMedia === "function") {
             gUMOptions = {video: true, toString: function(){ return "video"; }};
 
         video.setAttribute('autoplay', true);
-        mask.src = "/img/mask.png";
+        mask.src = "/static/dashboard_app/img/normal.png";
         context.fillStyle = "rgba(0, 0, 200, 0.5)";
         navigator.getUserMedia(gUMOptions, handleWebcamStream, errorStartingStream);
 
