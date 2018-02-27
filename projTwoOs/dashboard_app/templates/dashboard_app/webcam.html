@@ -360,7 +360,6 @@
                         id = this.id
                         mask.src = "/static/dashboard_app/img/" + id;
                     });
-
                     $("#save").on('click', function() {
                         console.log(id)
                         $.ajax({
@@ -368,7 +367,7 @@
                             method: 'post',
                             data: {"route":id},
                             success: function(serverResponse) {
-                                $("#saved").html("Saved "+id+" in Wish List");
+                                alert("Saved "+id+" in Wish List");
                                 // Add saved to webpage
                             }
                         })
