@@ -1,5 +1,8 @@
 from django import forms
 
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
+from django.contrib.auth import get_user_model
+
+from models import *
+
+class UploadSnapshotForm(forms.Form):
     file = forms.FileField()
