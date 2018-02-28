@@ -113,7 +113,7 @@
 
     <script>
         var me = {};
-        me.avatar = "https://lh6.googleusercontent.com/-lr2nyjhhjXw/AAAAAAAAAAI/AAAAAAAARmE/MdtfUmC0M4s/photo.jpg?sz=48";
+        me.avatar = "https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-9/10612711_10152646869858210_6282026281604164554_n.jpg?oh=921a14a67ddd8960a5e9feba09e0878a&oe=5B459329";
 
         var you = {};
         you.avatar = "https://cdn.dribbble.com/users/13885/screenshots/3778421/chatbot.png";
@@ -151,7 +151,7 @@
                 control = '<li style="width:100%;">' +
                                 '<div class="msj-rta macro">' +
                                     '<div class="text text-r">' +
-                                        '<p>'+text+'</p>' +
+                                        '<p>'+ text +'</p>' +
                                         '<p><small>'+date+'</small></p>' +
                                     '</div>' +
                                 '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="'+you.avatar+'" /></div>' +                                
@@ -169,18 +169,19 @@
         }
 
         $(document).ready(function() {
-        var text = document.getElementsByClassName(".mytext")
-        $(".mytext").on("keyup", function(e){
-        console.log($(".mytext").val())
-        $.ajax({
+        $(".mytext").on("keydown", function(e){
+        var text = $(this).val();
+        if ((e.which) == 13){
+            $.ajax({
             url:"/chatbot/bot", 
             method: "post",
-            data:{'input': $(".mytext").val()},
+            data:{
+                'input': text
+            },
             success: function(serverResponse){
-                console.log("response:",serverResponse.name)
-            }
-        })
-        if ((e.keyCode || e.which) == 13){
+                insertChat("you", serverResponse.response);
+                }
+            })
         var text = $(this).val();
         if (text !== ""){
         insertChat("me", text);
@@ -189,6 +190,32 @@
         }
         });
         });
+
+        //         $(document).ready(function() {
+        // var text = document.getElementsByClassName($(".mytext").val)
+        // $(".mytext").on("keydown", function(e){
+
+        // console.log(text)
+        // // console.log($(".mytext").val())
+        // $.ajax({
+        //     url:"/chatbot/bot", 
+        //     method: "post",
+        //     data:{'input': $(".mytext").val()},
+        //     success: function(serverResponse){
+        //         // console.log("response:",serverResponse)
+        //         // console.log(response.content)
+        //     }
+        // })
+
+        // if ((e.keyCode || e.which) == 13){
+        // var text = $(this).val();
+        // if (text !== ""){
+        // insertChat("me", text);
+        // $(this).val('');
+        // }
+        // }
+        // });
+        // });
 
 
 
