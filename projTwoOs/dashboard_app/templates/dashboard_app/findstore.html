@@ -4,6 +4,10 @@
         <title>Place searches</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
+        <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
         <style>
         /* Always set the map height explicitly to define the size of the div
         * element that contains the map. */
@@ -43,6 +47,15 @@
             width: 390px;
             overflow: auto;
         }  
+        #store-info{ 
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+            height: 100%;
+            float: right;
+            width: 390px;
+            overflow: auto;
+        }
         @media print {
             #map {
             height: 500px;
@@ -62,6 +75,8 @@
         var directionsService;
         var directionsDisplay;
         var markerCoord;
+        var storeID;
+        var service;
         function initMap() {
             var pos = {lat: 47.4505, lng: -122.2519}; //southcenter coordinates
             
@@ -103,7 +118,7 @@
         }
 
         function getMarkers(){
-            var service = new google.maps.places.PlacesService(map);
+            service = new google.maps.places.PlacesService(map);
             service.nearbySearch({
             location: map.getCenter(),
             radius: 5000,
@@ -129,14 +144,25 @@
 
             google.maps.event.addListener(marker, 'click', function() {
                 markerCoord = {lat: marker.getPosition().lat(), lng: marker.getPosition().lng()}
-                infoWindow.setContent("<h3>" + place.name + "</h3> <p onclick='calculateAndDisplayRoute(directionsService, directionsDisplay)'>Click me for directions to try in store! </p>");
+                storeID = place.place_id
+                infoWindow.setContent("<h3>" + place.name + "</h3> <p onclick='getStoreInfo()'>Click for more info! </p>");
                 infoWindow.open(map, this);
                 directionsDisplay.setMap(map);
                 directionsDisplay.setPanel(document.getElementById('right-panel'));
             });
         }
-
-        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        
+        function getStoreInfo(){
+            service = new google.maps.places.PlacesService(map);
+            service.getDetails({
+                placeId: storeID
+            }, function(place, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                    document.getElementById('store-info').innerHTML = "<h3>Place name: " + place.name + "</h3>  <p>Rating: " + place.rating +"<p>Hours: " + place.opening_hours.weekday_text + "</p> <p id='address' onclick='calculateAndDisplayRoute()'> Address: " + place.formatted_address + '(Click for directions)</p>';
+                }
+            }); 
+        }
+        function calculateAndDisplayRoute() {
             if (userCoord) { //if user provides geolocation
                 directionsService.route({
                     origin: userCoord, //user coordinates
@@ -157,6 +183,7 @@
     </head>
     <body>
         <div id="map"></div>
+        <div id="store-info"></div>
         <div id="right-panel"></div>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOk_7DVn9PK1OrEYC1WKEWk4ab1U8XTlc&libraries=places&callback=initMap" async defer></script>
     </body>
