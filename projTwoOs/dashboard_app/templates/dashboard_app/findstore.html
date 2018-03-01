@@ -1,13 +1,30 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
     <head>
         <title>Place searches</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
+=======
+<!DOCTYPE HTML>
+<!--
+	Transitive by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Locate Store</title>
+		<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'main_template/css/main.css' %}" />
+>>>>>>> 454a5d84fd5f55d04e58bd38ff794f295a7b43df
         <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
+<<<<<<< HEAD
         <style>
         /* Always set the map height explicitly to define the size of the div
         * element that contains the map. */
@@ -187,4 +204,63 @@
         <div id="right-panel"></div>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOk_7DVn9PK1OrEYC1WKEWk4ab1U8XTlc&libraries=places&callback=initMap" async defer></script>
     </body>
+=======
+        
+	</head>
+	<body class="subpage">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="logo"><a href="index.html">SPECTACLE <span>a VIRTUAL eyeglasses fitting</span></a></div>
+				<a href="#menu" class="toggle"><span>Menu</span></a>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="generic.html">Generic</a></li>
+					<li><a href="elements.html">Elements</a></li>
+				</ul>
+			</nav>
+        <section id="four" class="wrapper style3 location">
+            <div class="inner">
+
+                <header class="align-center">
+                    <h2>LOCATE A NEARBY STORE</h2>
+                    <p>Search your neighborhood for one our associated stores to try on in person.</p>
+                </header>
+
+            </div>
+        </section>
+
+            
+        <!-- One -->
+        <section id="one" class="wrapper style2">
+            <div class="inner">
+                <div class="box">
+                    <div class="image fit">
+                        <div id="map"></div>
+                    </div>
+                    <div class="content">
+                        <header class="align-center">
+                            <div id="store-info"></div>
+                            <div id="right-panel"></div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+		<!-- Scripts -->
+			<script src="{% static 'main_template/js/jquery.min.js' %}"></script>
+			<script src="{% static 'main_template/js/jquery.scrolly.min.js' %}"></script>
+			<script src="{% static 'main_template/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'main_template/js/skel.min.js' %}"></script>
+			<script src="{% static 'main_template/js/util.js' %}"></script>
+            <script src="{% static 'main_template/js/main.js' %}"></script>
+            <script src="{% static 'main_template/js/drawmap.js' %}"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOk_7DVn9PK1OrEYC1WKEWk4ab1U8XTlc&libraries=places&callback=initMap" async defer></script>
+
+	</body>
+>>>>>>> 454a5d84fd5f55d04e58bd38ff794f295a7b43df
 </html>
