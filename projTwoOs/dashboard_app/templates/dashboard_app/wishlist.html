@@ -14,9 +14,12 @@
         {% for r in route %}
             {% if r.glasses_id == g.id %}
                 <img src=/snap/{{r.file_upload}}>
-                <p>{{g.name}}</p>
-                <p>Price: ${{g.price}}</p>
-                <p>Store: {{g.store}}</p>
+                <ul>
+                    <li>Name: {{g.name}}</li>
+                    <li>Price: ${{g.price}}</li>
+                    <li>Store: {{g.store}}</li>
+                    <li><a href='/dashboard/delete/{{r.id}}' >Remove</a></li>
+                </ul>
                 {% endif %}
         {% endfor %}
     {% endfor %}
