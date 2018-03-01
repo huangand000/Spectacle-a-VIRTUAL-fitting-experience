@@ -9,5 +9,7 @@ urlpatterns = [
     url(r'^save_snapshot$', views.save_snapshot),
     url(r'^get_glasses/', views.get_glasses),
     url(r'^find_store/', views.find_store),
+    url(r'^delete/(?P<id>\d+)', views.delete),
+
 
 ]
