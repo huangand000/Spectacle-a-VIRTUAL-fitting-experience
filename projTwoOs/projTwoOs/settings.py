@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'chatbot',
+    'twits',
     'authApp',
     'dashboard_app',
     'django.contrib.admin',
