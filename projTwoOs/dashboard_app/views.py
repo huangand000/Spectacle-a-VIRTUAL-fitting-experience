@@ -98,6 +98,7 @@ def save_snapshot(request):
 def find_store(request):
     return render(request, 'dashboard_app/findstore.html')
 
+@login_required(login_url='/')
 def delete(request, id):
     Snapshot.objects.get(id=id).delete()
     return redirect('/dashboard/wishlist')
