@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.views.decorators.csrf import csrf_exempt 
 from django.shortcuts import render,HttpResponse
@@ -100,12 +99,22 @@ def twitter(request):
         )
 
     tweets = t.search.tweets(q='#glasses trend', result_type='mixed', lang='en',include_entities='false')
-    
+
+
+    dictFinal = []
+    for items in range(0,len(tweets['statuses'])):
+        dictInter = []
+        twits=(tweets['statuses'][items]['text'].split('http')[0])
+        url=(tweets['statuses'][items]['text'].split('http')[1].split('s://')[1])
+        dictInter.append(twits)
+        dictInter.append(url)
+        dictFinal.append(dictInter)
+        dictInter = []
+
     context = {
-        'tweets': tweets['statuses'] 
-    }
-    
-    # print tweets['statuses']
+        'data':dictFinal
+        }     
+
     return render(request,'twitter.html',context)
 
 

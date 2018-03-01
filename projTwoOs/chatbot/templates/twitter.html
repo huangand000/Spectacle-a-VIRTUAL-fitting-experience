@@ -10,11 +10,13 @@
 </head>
 <body>
         <div>
-                {% for item in tweets %}
+                {% for item in data %}
                 <ul>
-                    <li> {{ item.text }} </li>
+                    <li>{{item.0}}</li> 
+                    <a href=//{{item.1}} target="_blank">{{item.1}}</a>
                 </ul>
                 {% endfor %}
+
         </div>
 </body>
 </html>
