@@ -287,7 +287,14 @@ function getStoreInfo(){
         placeId: storeID
     }, function(place, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-            document.getElementById('store-info').innerHTML = "<h3>Place name: " + place.name + "</h3>  <p>Rating: " + place.rating +"<p>Hours: " + place.opening_hours.weekday_text + "</p> <p id='address' onclick='calculateAndDisplayRoute()'> Address: " + place.formatted_address + '(Click for directions)</p>';
+            $('#store-info').html('');
+            $('#store-info').append("<h3>Place name: " + place.name + "</h3>");
+            $('#store-info').append("<h4>Ratings: " + place.rating +"</h4>");
+            $('#store-info').append("<p> Address: " + place.formatted_address + ' <h4 id="address" onclick="calculateAndDisplayRoute()">(Click for directions)</h4></p>');
+            $('#store-info').append("<h4>Hours:</h4>");
+            for (var time in place.opening_hours.weekday_text) {
+                $('#store-info').append('<p>' +place.opening_hours.weekday_text[time] +'</p>');
+            }
         }
     }); 
 }

@@ -15,11 +15,11 @@ from models import *
 User = get_user_model()
 # routes do RENDER
 
-@login_required()
+@login_required(login_url='/')
 def index(request):
     return render(request, 'dashboard_app/index.html')
 
-@login_required()
+@login_required(login_url='/')
 def get_wishlist(request):
     arr = []
     snapshot = Snapshot.objects.filter(user_id = request.user.id)
@@ -37,7 +37,7 @@ def get_wishlist(request):
     }
     return render(request, 'dashboard_app/wishlist.html', user_glasses)
 
-@login_required()
+@login_required(login_url='/')
 def webcam(request):
     glasses = {
         'glasses': Glasses.objects.using('glasses').all(),
@@ -99,6 +99,5 @@ def find_store(request):
     return render(request, 'dashboard_app/findstore.html')
 
 def delete(request, id):
-    print id
     Snapshot.objects.get(id=id).delete()
     return redirect('/dashboard/wishlist')
