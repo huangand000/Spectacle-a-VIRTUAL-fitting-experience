@@ -78,4 +78,4 @@ def save_snapshot(request):
 
 @login_required()
 def find_store(request):
-    return HttpResponse('store!')
+    return render(request, 'dashboard_app/findstore.html')
