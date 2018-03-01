@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'chatbot',
     'twits',
     'authApp',
+    'storeApp',
     'dashboard_app',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -81,6 +82,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'glasses': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'glasses_db.sqlite3'),
     }
 }
 

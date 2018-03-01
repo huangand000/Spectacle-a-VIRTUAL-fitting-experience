@@ -11,6 +11,7 @@ import bcrypt
 
 class User(AbstractUser):
     name = models.CharField(max_length=100)
+    wishlist = models.CharField(max_length=1000, default='[]')
     def check_password(self, raw_password):
         if bcrypt.checkpw(raw_password.encode('utf8'), self.password.encode('utf8')):
             return True
