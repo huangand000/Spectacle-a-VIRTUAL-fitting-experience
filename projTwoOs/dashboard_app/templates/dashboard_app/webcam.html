@@ -1,320 +1,66 @@
-<!-- <!DOCTYPE html>
-    First draft
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-        #video {
-            border: 1px solid black;
-            box-shadow: 2px 2px 3px black;
-            width:320px;
-            height:240px;
-          }
-          
-          #photo {
-            border: 1px solid black;
-            box-shadow: 2px 2px 3px black;
-            width:320px;
-            height:240px;
-          }
-          
-          #canvas {
-            display:none;
-          }
-          
-          .camera {
-            width: 340px;
-            display:inline-block;
-          }
-          
-          .output {
-            width: 340px;
-            display:inline-block;
-          }
-          
-          #startbutton {
-            display:block;
-            position:relative;
-            margin-left:auto;
-            margin-right:auto;
-            bottom:32px;
-            background-color: blue;
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
-            font-size: 14px;
-            font-family: "Lucida Grande", "Arial", sans-serif;
-            color: rgba(255, 255, 255, 1.0);
-          }
-        </style>
-</head>
-<body>
-    <h1>{{glasses1.route}} </h1>
-    {% load static %}
-    <img src="{% static '/dashboard_app/img/rayban.png' %}">
-    <img src="{{glasses1.route}}">
-    {% load static %}
-    <a href='/dashboard'>Home</a>
-    <h2>Wide Selection of glasses here</h2>
-    <div class='camera'>
-        <video id='video'>Video Stream not available.</video>
-        <button id='startbutton'>Take photo</button>
-    </div>
-    <canvas id='canvas'></canvas>
-    <div class='output'>
-        <img id='photo' alt='The screen capture will appear in this box.'>
-    </div>
-    <img src={{request.session.image}}>
-
-    <a href='/dashboard/wishlist'>Go To Wish list</a>
-    <a href='/dashboard/webcam'>Add to Wish list</a>
-
-    <a id='link'>Image</a>
-    {% csrf_token %}
-
-    <script>
-        (function() {
-        // width and height of captured photo will be set here. The height will be
-        // calculated based on the aspect ratio of input stream
-        var width = 320;    // Scale width of photo
-        var height = 0;     // Computed based on input stream
-
-        // Stream variable indicates whether or not we're currently streaming.
-        // Start at false, requires permission.
-
-        var streaming = false;
-
-        // HTML elements that will be set by startup()
-
-        var video = null;
-        var canvas = null;
-        var photo = null;
-        var startbutton = null;
-
-
-        // When page finished loading, run function to request
-        // access from user's webcam
-        function startup() {
-            // Grab all references of major elements listed above
-            video = document.getElementById('video');
-            canvas = document.getElementById('canvas');
-            photo = document.getElementById('photo');
-            startbutton = document.getElementById('startbutton');
-            
-            // Get media stream without audio
-            // Returns stream object as input if theres a compatible camera
-            // Otherwise throws error
-            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-                .then(function(stream) {
-                    video.srcObject = stream;
-                    video.play();
-                })
-                .catch(function(err) {
-                    console.log("An error occured! " + err);
-                });
-                
-            // Listens for if the webcam can play based on user's decision
-            // Only works for first time (Answers yes or no)
-            video.addEventListener('canplay', function(ev){
-            if (!streaming) {
-                height = video.videoHeight / (video.videoWidth/width);
-                video.setAttribute('width', width);
-                video.setAttribute('height', height);
-                canvas.setAttribute('width', width);
-                canvas.setAttribute('height', height);
-                streaming = true;
-            }
-            }, false);
-            
-            // Captures the photo everytime the start button is clicked
-            startbutton.addEventListener('click', function(ev){
-                takepicture();
-                ev.preventDefault();
-            }, false);
-            // Clears photo box
-            clearphoto();
-    }
-
-
-    // Creating an image, then converting it into a format usable by the
-    function clearphoto() {
-        var context = canvas.getContext('2d');
-        context.fillStyle = "#AAA";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-
-        var data = canvas.toDataURL('image/png');
-        photo.setAttribute('src', data);
-    }
-  
-
-    // Captures photo by obtaining the current content of the video
-    // Draws it to the canvas
-    // Converts the drawing to PNG format
-    // Display in captured framebox
-
-    function takepicture() {
-        var context = canvas.getContext('2d');
-        if (width && height) {
-            canvas.width = width;
-            canvas.height = height;
-            context.drawImage(video, 0, 0, width, height);
-            var data = canvas.toDataURL('image/png');
-            // var image = data.replace("image/png", "image/octet-stream");
-            // window.location.href=image
-            var link = document.getElementById('link');
-            link.setAttribute('download', "self-portrait.png");
-            link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-            photo.setAttribute('src', data);
-
-            var image = document.getElementById('image');
-            // image.setAttribute('value',canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-
-
-
-            function dataURItoBlob(dataURI) {
-                // convert base64/URLEncoded data component to raw binary data held in a string
-                var byteString;
-                if (dataURI.split(',')[0].indexOf('base64') >= 0)
-                    byteString = atob(dataURI.split(',')[1]);
-                else
-                    byteString = unescape(dataURI.split(',')[1]);
-
-                // separate out the mime component
-                var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-                // write the bytes of the string to a typed array
-                var ia = new Uint8Array(byteString.length);
-                for (var i = 0; i < byteString.length; i++) {
-                    ia[i] = byteString.charCodeAt(i);
-                }
-               return new Blob([ia], {type:mimeString});
-            }
-            blob = dataURItoBlob(data)
-            console.log(blob)
-
-
-            fd = new FormData();
-            fd.append('title', 'afile')
-            fd.append('file', blob);
-
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if(this.status == 200) {
-                    console.log("Received")
-                }
-            }
-            xhr.open("post", '/dashboard/process/');
-            var token = getCookie("csrftoken");
-            console.log(token);
-            xhr.setRequestHeader('X-CSRFToken', token);
-            xhr.send(fd);
-            
-            function getCookie(cname) {
-                var name = cname + "=";
-                var decodedCookie = decodeURIComponent(document.cookie);
-                var ca = decodedCookie.split(';');
-                for(var i = 0; i <ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
-                    }
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
-                    }
-                }
-                return "";
-            }   
-        
-        } else {
-            clearphoto();
-        }
-   
-    }
-
-    // Set up our event listener to run the startup process
-    // once loading is complete.
-    window.addEventListener('load', startup, false);
-    })();
-    </script>
-</body>
-</html>
- -->
-
-
- <!DOCTYPE html>
+<!DOCTYPE html>
  <html>
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title>Masks, face detection, canvas and webcams &mdash; Paul Hayes</title>
-        <meta name="author" content="Paul Hayes" />
-        <link rel="stylesheet" href="/static/dashboard_app/css/experiment-styles.css" />
-        <link rel="stylesheet" href="/static/dashboard_app/css/experiment.css" />
-        <style>
-            #selection{
-                border: 3px solid grey;
-                border-bottom-left-radius: 10px;
-                border-bottom-right-radius: 10px;
-                position: relative;
-                bottom: 26px;
-            }
-
-            .learn{
-                font-size: 20pt;
-                font-weight: bold;
-                color: black;
-                border: 3px solid grey;
-
-            }
-
-            .mask{
-                border: 3px solid grey;
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-
-            }
-
-            .camera{
-                text-align: center;
-            }
-            button{
-                width: 412px;
-                height: 40px;
-                color: grey;
-                border-radius: 10px;
-                margin-top: 10px;
-                margin-left: 515px;
-                display: block;
-            }
-        </style>
-
+        <title>e-Try On Glasses</title>
+        <meta name="author" content="Andre Huang" />
+        <link rel="stylesheet" href="/static/dashboard_app/css/styles.css" />
     </body>
   </html>     
 
 </head>
-    <body class="experiment" >
-        <!-- <button onclick="capture()">Click me</button> -->
+    <body>
+		<!-- Header -->
+        <header id="header">
+				<div class="logo"><a href="index.html">Transitive <span>by TEMPLATED</span></a></div>
+				<a href="#menu" class="toggle"><span>Menu</span></a>
+			</header>
 
-        <nav>
-            <a href='/dashboard'>Home</a>
-            <a style='float:right;'href='/auth/logout'>Logout</a>
-        </nav>
-        <p class="learn">
-            Try on Glasses
-        </p>
-        <div id='selection'></div>
-        <div class='camera'>
-            <canvas id='source' width="400" height="320" class="mask" src='/static/dashboard_app/img/mask.png'></canvas>
-            <button onclick='capture()'id='startbutton'>Take photo</button>
-            <button id='save'>Save to Wish list</button>
-            <p id='saved'></p>
-        </div>
-        <form action='/dashboard/wishlist/'>
-            <button>Go to Wish List</button>
-        </form>
-        <img id='photo'>
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="generic.html">Generic</a></li>
+					<li><a href="elements.html">Elements</a></li>
+				</ul>
+			</nav>
+
+		<!-- One -->
+			<section id="one" class="wrapper style2">
+				<div class="inner">
+					<div class="box">
+                        <div id='selection'></div>
+                        <div class='camera'>
+                            <canvas id='source' width="400" height="320" class="glasses" src='/static/dashboard_app/img/glasses.png'></canvas>
+                            <button onclick='capture()'id='startbutton'>Take photo</button>
+                            <button disabled=true id='save'>Save to Wish list</button>
+                            <p id='saved'></p>
+                        </div>
+                        <form action='/dashboard/wishlist/'>
+                            <button>Go to Wish List</button>
+                        </form>
+                        <img id='photo'>
+					</div>
+				</div>
+			</section>
+
+		<!-- Four -->
+			<section id="four" class="wrapper style3">
+				<div class="inner">
+					<header class="align-center">
+						<h2>Find your perfect fit</h2>
+					</header>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+        <script src="/static/dashboard_app/js/jquery.min.js"></script>
+        <script src="/static/dashboard_app/js/jquery.scrolly.min.js"></script>
+        <script src="/static/dashboard_app/js/jquery.scrollex.min.js"></script>
+        <script src="/static/dashboard_app/js/skel.min.js"></script>
+        <script src="/static/dashboard_app/js/util.js"></script>
+        <script src="/static/dashboard_app/js/main.js"></script>
         <script src="/static/dashboard_app/js/ccv.js"></script>
         <script src="/static/dashboard_app/js/face.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -327,186 +73,171 @@
             //normalize navigator.getUserMedia
             navigator.getUserMedia || (navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
             if (typeof navigator.getUserMedia === "function") {
+                var video = document.createElement('video'),
+                    content = document.querySelector('.transforming-content'),
+                    canvas = document.querySelector('canvas'),
+                    context = canvas.getContext('2d'),
+                    glasses = new Image(),
+                    originalFace,
 
-                (function() {
+                    // Quick hack for two experiment types
+                    SCALE_EXPERIMENT = 'scale',
+                    glasses_EXPERIMENT = 'glasses',
+                    experimentType = /glasses/.test(canvas.className) ? glasses_EXPERIMENT : SCALE_EXPERIMENT,
 
-                    var video = document.createElement('video'),
-                        content = document.querySelector('.transforming-content'),
-                        canvas = document.querySelector('canvas'),
-                        context = canvas.getContext('2d'),
-                        mask = new Image(),
-                        originalFace,
+                    // toString for older gUM implementation, see comments on https://gist.github.com/f2ac64ed7fc467ccdfe3
+                    gUMOptions = {video: true, toString: function(){ return "video"; }};
 
-                        // Quick hack for two experiment types
-                        SCALE_EXPERIMENT = 'scale',
-                        MASK_EXPERIMENT = 'mask',
-                        experimentType = /mask/.test(canvas.className) ? MASK_EXPERIMENT : SCALE_EXPERIMENT,
+                video.setAttribute('autoplay', true);
+                $.ajax({
+                    url: '/dashboard/get_glasses/',
+                    method: 'post',
+                    success: function(serverResponse) {
+                        for (var i in serverResponse) {
+                            $('#selection').append("<a  ><img name='"+ serverResponse[i]+"'id='"+i+"' style='height:100px;width:100px' src='/static/dashboard_app/img/"+ serverResponse[i]+"'></a>");
+                        }
+                    }
+                });
+                var name = ''
+                var id = ''
+                $('#selection').on('click', "img", function() {
+                    name = this.getAttribute('name')
+                    id = this.id
+                    $('#save').attr("disabled", false)
+                    glasses.src = "/static/dashboard_app/img/" + name;
+                });
 
-                        // toString for older gUM implementation, see comments on https://gist.github.com/f2ac64ed7fc467ccdfe3
-                        gUMOptions = {video: true, toString: function(){ return "video"; }};
-
-                    video.setAttribute('autoplay', true);
+                var blob= ''
+                function capture(){
+                    var canvas = document.getElementById('source');
+                    var dataURL = canvas.toDataURL();
+                    var ps = document.getElementById("photo")
+                    ps.setAttribute("src",dataURL)
+                    blob = dataURItoBlob(dataURL);
+                }
+                $("#save").on('click', function() {
+                    var form = new FormData();
+                    form.append('file', blob);
+                    form.append('glasses_id', id)
                     $.ajax({
-                        url: '/dashboard/get_glasses/',
+                        url: '/dashboard/save_snapshot',
                         method: 'post',
-                        success: function(serverResponse) {
-                            for (var i in serverResponse) {
-                                $('#selection').append("<a  ><img id='"+serverResponse[i]+"' style='height:100px;width:100px' src='/static/dashboard_app/img/"+ serverResponse[i]+"'></a>");
-                            }
+                        processData: false,
+                        contentType: false,
+                        data: form,
+                        success: function(res) {
+                            console.log(res);
                         }
-                    });
-                    var id = ''
-                    $('#selection').on('click', "img", function() {
-                        id = this.id
-                        mask.src = "/static/dashboard_app/img/" + id;
-                    });
+                    })
+                });
+                function dataURItoBlob(dataURI) {
+                    // convert base64/URLEncoded data component to raw binary data held in a string
+                    var byteString;
+                    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+                        byteString = atob(dataURI.split(',')[1]);
+                    else
+                        byteString = unescape(dataURI.split(',')[1]);
 
-                    $("#save").on('click', function() {
-                        $.ajax({
-                            url: '/dashboard/wishlist_process/',
-                            method: 'post',
-                            data: {"route":id},
-                            success: function(serverResponse) {
-                                $("#saved").html("Saved "+id+" in Wish List");
-                                // Add saved to webpage
-                            }
-                        })
-                    });
-                    context.fillStyle = "rgba(0, 0, 200, 0.5)";
-                    navigator.getUserMedia(gUMOptions, handleWebcamStream, errorStartingStream);
+                    // separate out the mime component
+                    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
-                    function handleWebcamStream(stream) {
-
-                        video.src = (window.URL && window.URL.createObjectURL) ? window.URL.createObjectURL(stream) : stream;
-                        processWebcamVideo();
+                    // write the bytes of the string to a typed array
+                    var ia = new Uint8Array(byteString.length);
+                    for (var i = 0; i < byteString.length; i++) {
+                        ia[i] = byteString.charCodeAt(i);
                     }
+                    return new Blob([ia], {type:mimeString});
+                }
+                context.fillStyle = "rgba(0, 0, 200, 0.5)";
+                navigator.getUserMedia(gUMOptions, handleWebcamStream, errorStartingStream);
 
-                    function errorStartingStream() {
-                        alert('Uh-oh, the webcam didn\'t start. Do you have a webcam? Did you give it permission? Refresh to try again.');
-                    }
+                function handleWebcamStream(stream) {
 
-                    function processWebcamVideo() {
+                    video.src = (window.URL && window.URL.createObjectURL) ? window.URL.createObjectURL(stream) : stream;
+                    processWebcamVideo();
+                }
 
-                        var startTime = +new Date(),
-                            changed = false,
-                            scaleFactor = 1,
-                            faces;
+                function errorStartingStream() {
+                    alert('Uh-oh, the webcam didn\'t start. Do you have a webcam? Did you give it permission? Refresh to try again.');
+                }
 
-                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                        faces = detectFaces();
+                function processWebcamVideo() {
 
-                        if(experimentType === MASK_EXPERIMENT) {
-                            drawMasks(faces);
-                        } else {
-                            highlightFaces(faces);
+                    var startTime = +new Date(),
+                    changed = false,
+                    scaleFactor = 1,
+                    faces;
 
-                            if(originalFace && faces.length > 0) {
-                                scaleContent(faces[0]);
-                            }
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    faces = detectFaces();
 
-                            if( ! originalFace && faces.length === 1) {
-                                originalFace = faces[0];
-                            }
+                    if(experimentType === glasses_EXPERIMENT) {
+                        drawglassess(faces);
+                    } else {
+                        highlightFaces(faces);
+
+                        if(originalFace && faces.length > 0) {
+                            scaleContent(faces[0]);
                         }
 
-                        // Log process time
-                        // console.log(+new Date() - startTime);
-
-                        // And repeat.
-                        setTimeout(processWebcamVideo, 50);
-                    }
-
-                    function detectFaces() {
-                        // What do these parameters mean?
-                        // I couldn't find any documentation, and used what was found here:
-                        // https://github.com/liuliu/ccv/blob/unstable/js/index.html
-
-                        return ccv.detect_objects({canvas : (ccv.pre(canvas)), cascade: cascade, interval: 2, min_neighbors: 1});
-                    }
-
-                    // Draw found faces onto the canvas
-                    function highlightFaces(faces) {
-                        if(!faces) {
-                            return false;
-                        }
-
-                        for (var i = 0; i < faces.length; i++) {
-                            var face = faces[i];
-                            context.fillRect(face.x, face.y, face.width, face.height);
+                        if( ! originalFace && faces.length === 1) {
+                            originalFace = faces[0];
                         }
                     }
 
-                    function drawMasks(faces) {
-                        if(!faces) {
-                            return false;
-                        }
+                    // Log process time
+                    // console.log(+new Date() - startTime);
 
-                        for (var i = 0; i < faces.length; i++) {
-                            var face = faces[i];
-                            context.drawImage(mask, face.x * 0.9, face.y * 0.9, face.width * 1.3, face.height * 1.3);
-                        }
+                    // And repeat.
+                    setTimeout(processWebcamVideo, 50);
+                }
+
+                function detectFaces() {
+                    return ccv.detect_objects({canvas : (ccv.pre(canvas)), cascade: cascade, interval: 2, min_neighbors: 1});
+                }
+
+                // Highlight found faces onto the canvas
+                function highlightFaces(faces) {
+                    if(!faces) {
+                        return false;
                     }
 
-                    function scaleContent(newFace) {
-                        var scaleFactor = originalFace.height / newFace.height;
-                        content.style.setProperty('-o-transform', 'scale('+scaleFactor+')');
-                        content.style.setProperty('-webkit-transform', 'scale('+scaleFactor+')');
+                    for (var i = 0; i < faces.length; i++) {
+                        var face = faces[i];
+                        // Highlight Face
+                        context.fillRect(face.x, face.y, face.width, face.height);
+                    }
+                }
+
+                function drawglassess(faces) {
+                    if(!faces) {
+                        return false;
                     }
 
-                    /* Face object example:
-                    {
-                        confidence: 0.16752329000000035,
-                        height: 48.500000000000014,
-                        neighbors: 1,
-                        width: 48.500000000000014,
-                        x: 80.50000000000001,
-                        y: 104.50000000000003
+                    for (var i = 0; i < faces.length; i++) {
+                        var face = faces[i];
+                        // Draw glasses
+                        context.drawImage(glasses, face.x * 0.9, face.y * 0.9, face.width * 1.3, face.height * 1.3);
                     }
-                    */
+                }
 
+                function scaleContent(newFace) {
+                    var scaleFactor = originalFace.height / newFace.height;
+                    content.style.setProperty('-o-transform', 'scale('+scaleFactor+')');
+                    content.style.setProperty('-webkit-transform', 'scale('+scaleFactor+')');
+                }
 
-
-                })();
+                /* Face object example:
+                {
+                    confidence: 0.16752329000000035,
+                    height: 48.500000000000014,
+                    neighbors: 1,
+                    width: 48.500000000000014,
+                    x: 80.50000000000001,
+                    y: 104.50000000000003
+                }
+                */
             }
         </script>
-        <script>
-            function capture(){
-                var canvas = document.getElementById('source');
-                var dataURL = canvas.toDataURL();
-                var ps = document.getElementById("photo")
-                ps.setAttribute("src",dataURL)
-                var blob = dataURItoBlob(dataURL);
-                var form = new FormData();
-                form.append('file', blob);
-                $.ajax({
-                    url: '/dashboard/save_snapshot',
-                    method: 'post',
-                    processData: false,
-                    contentType: false,
-                    data: form,
-                    success: function(res) {
-                        console.log(res);
-                    }
-                })
-            }
-            function dataURItoBlob(dataURI) {
-                // convert base64/URLEncoded data component to raw binary data held in a string
-                var byteString;
-                if (dataURI.split(',')[0].indexOf('base64') >= 0)
-                    byteString = atob(dataURI.split(',')[1]);
-                else
-                    byteString = unescape(dataURI.split(',')[1]);
-
-                // separate out the mime component
-                var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-                // write the bytes of the string to a typed array
-                var ia = new Uint8Array(byteString.length);
-                for (var i = 0; i < byteString.length; i++) {
-                    ia[i] = byteString.charCodeAt(i);
-                }
-               return new Blob([ia], {type:mimeString});
-            }
-            </script>
     </body>
  </html> 

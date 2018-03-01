@@ -32,7 +32,7 @@ MOTION DETECTION
         height : 50px;
         background : rgba(0,255,0,0.6);
         position: absolute;
-        top : 5px;
+        top : 20px;
         left: 5px;
         z-index: 10;
     }
@@ -46,11 +46,13 @@ MOTION DETECTION
             
             <div class="touch"></div>
             <video width=320 height=240></video>
+            <div id='glasses'></div>
             <p>Start your cam then hit the green zone to change the background color<br/>
             <a href="http://www.adobe.com/devnet/archive/html5/articles/javascript-motion-detection.html">more details here</a>
             </p>
             <button>start cam</button>
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script>
 		var video = document.querySelector("video");
 		var canvasImg1 = document.querySelector(".img1");
@@ -91,7 +93,16 @@ MOTION DETECTION
           console.log("erreur : "+e);
         })
 		})
-    
+        data = {
+            0: 'blind.png',
+            1: 'aviator.png',
+            2: 'brown-aviator.png',
+            3: 'heart.png',
+            4: 'hipster.png',
+            5: 'nerd.png',
+            6: 'normal.png' 
+        }
+        count = 0;
 var lastImageData;
 		var dataDiff = ctxDiff.getImageData(0,0,width,height);
 		function loop() {
@@ -131,9 +142,15 @@ var lastImageData;
 				for(var i = 0, len = blendedData.data.length; i < len; i+=4) {
 					average += (blendedData.data[i] + blendedData.data[i+1] + blendedData.data[i+2]) / 3;
 				}
+        
 				average = Math.round(average / (blendedData.data.length / 4));
 				if(average < 240) {
-					document.querySelector("body").style.background = rgba();
+					// document.querySelector("body").style.background = rgba();
+                    $('#glasses').append('<img style="height:100px;width:100px" src="/static/dashboard_app/img/'+count + data[count]+'">')
+                    count++;
+                    console.log(data[0]);
+                    console.log(count)
+
 				}
 
 			requestAnimationFrame(loop);
@@ -150,23 +167,23 @@ var lastImageData;
 			return (value ^ (value >> 31)) - (value >> 31); 
 		}
 
-		function rgba() {
-			var r = random(255);
-			var g = random(255);
-			var b = random(255);
-			var alpha = Math.random();
+		// function rgba() {
+		// 	var r = random(255);
+		// 	var g = random(255);
+		// 	var b = random(255);
+		// 	var alpha = Math.random();
 
-			return "rgba("+r+","+g+","+b+","+alpha+")";
-		}
+		// 	return "rgba("+r+","+g+","+b+","+alpha+")";
+		// }
 
-		function random(max) {
-			return Math.floor(Math.random() * max);
-		}
+		// function random(max) {
+		// 	return Math.floor(Math.random() * max);
+		// }
 	
 
     </script>
 </body>
-</html>  -->
+</html>  
  
     <!-- Webcam -->
     <!--
