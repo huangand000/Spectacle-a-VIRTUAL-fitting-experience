@@ -16,7 +16,7 @@ from models import *
 User = get_user_model()
 # routes do RENDER
 
-@login_required()
+@login_required(login_url='/')
 def index(request):
     t = Twitter(
         auth=OAuth('2990475133-m93dLsG6UoGtzm6aHSq89xmX1Z2Ysa8anGuCPU5', 'hk1cMw7EqwAVANozQNjMRVgqacoiGGQ2FVTaHmvsJjTuU', 'bnqpiVEnkqnOlfQFbxJHBJjoM', 'lcODwzLhRZV4OgHFxlaZphdT5IQGbas64ZsSiTCwbbpflazcJW')
@@ -40,7 +40,7 @@ def index(request):
 
     return render(request, 'dashboard_app/index.html',context)
 
-@login_required()
+@login_required(login_url='/')
 def get_wishlist(request):
     arr = []
     snapshot = Snapshot.objects.filter(user_id = request.user.id)
@@ -58,7 +58,7 @@ def get_wishlist(request):
     }
     return render(request, 'dashboard_app/wishlist.html', user_glasses)
 
-@login_required()
+@login_required(login_url='/')
 def webcam(request):
     glasses = {
         'glasses': Glasses.objects.using('glasses').all(),
@@ -119,7 +119,7 @@ def save_snapshot(request):
 def find_store(request):
     return render(request, 'dashboard_app/findstore.html')
 
+@login_required(login_url='/')
 def delete(request, id):
-    print id
     Snapshot.objects.get(id=id).delete()
     return redirect('/dashboard/wishlist')

@@ -4,25 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Wishlist</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main_template/css/main.css' %}" />
+
 </head>
-<body>
-    <a href='/dashboard'>Home</a>
-    <h2>{{request.user.name}}'s Wish list</h2>
-    <h2>Pic of glasses</h2>
-    {% for g in glasses %}
-        {% for r in route %}
-            {% if r.glasses_id == g.id %}
-                <img src=/snap/{{r.file_upload}}>
-                <ul>
-                    <li>Name: {{g.name}}</li>
-                    <li>Price: ${{g.price}}</li>
-                    <li>Store: {{g.store}}</li>
-                    <li><a href='/dashboard/delete/{{r.id}}' >Remove</a></li>
-                </ul>
+<body class="subpage">
+<!-- Header -->
+    <header id="header">
+        <div class="logo"><a href="/dashboard">SPECTACLE <span>a VIRTUAL fitting experience</span></a></div>
+        <a href="#menu" class="toggle"><span>Menu</span></a>
+    </header>
+
+<!-- Nav -->
+        <nav id="menu">
+            <ul class="links">
+                <li><a href="/dashboard">Home</a></li>
+                <li><a href="/dashboard/webcam">E-Try On</a></li>
+                <li><a href="/dashboard/wishlist">Wishlist</a></li>
+                <li><a href="/auth/logout">Logout</a></li>
+            </ul>
+        </nav>  
+    </nav>
+
+    <section id="four" class="wrapper style3 wishlist">
+        <div class="inner">
+            <header class="align-center">
+                <h2>{{request.user.name}}'s Wish list</h2>                
+                <p>Don't be careful for what you wish for here, because we guarantee you will love your new look.</p>
+            </header>
+        </div>
+    </section>
+
+    <section id="three" class="wrapper style2">
+        <div class="inner">
+            <div class="grid-style">
+                {% for g in glasses %}
+                {% for r in route %}
+                {% if r.glasses_id == g.id %}
+
+                <div>
+                    <div class="box">
+                        <div class="image fit">
+                            <img src=/snap/{{r.file_upload}} alt="" />
+                        </div>
+                        <div class="content">
+                            <header class="align-center">
+                                <h3>{{g.name}}</h3>
+                            </header>
+                            <hr />
+                            <p>Price: ${{g.price}}</p>
+                            <p> Available at: {{g.store}}</p>
+                            <a href='/dashboard/delete/{{r.id}}'>Remove from Wishlist</a>
+                        </div>
+                    </div>
+                </div>
                 {% endif %}
-        {% endfor %}
-    {% endfor %}
+                {% endfor %}
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+
+<!-- Scripts -->
+    <script src="{% static 'main_template//js/jquery.min.js' %}"></script>
+    <script src="{% static 'main_template//js/jquery.scrolly.min.js' %}"></script>
+    <script src="{% static 'main_template//js/jquery.scrollex.min.js' %}"></script>
+    <script src="{% static 'main_template//js/skel.min.js' %}"></script>
+    <script src="{% static 'main_template//js/util.js' %}"></script>
+    <script src="{% static 'main_template//js/main.js' %}"></script>
 
 </body>
 </html>
