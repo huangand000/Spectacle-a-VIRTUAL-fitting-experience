@@ -1,100 +1,75 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Transitive by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
 <html>
-    <head>
-        <title>Place searches</title>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <meta charset="utf-8">
-        <style>
-        /* Always set the map height explicitly to define the size of the div
-        * element that contains the map. */
-        #map {
-            width: 900px;
-            max-width: 100%;
-            height: 500px;
-        }
-        /* Optional: Makes the sample page fill the window. */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        </style>
-
-        <script>
-        var map;
-        var infowindow;
-
-        function initMap() {
-            var pos = {lat: 47.4505, lng: -122.2519}; //southcenter coordinates
-
-            map = new google.maps.Map(document.getElementById('map'), {
-            center: pos,
-            zoom: 15
-            });
-            infoWindow = new google.maps.InfoWindow();
-            getMarkers();
-
-            map.addListener('center_changed', function() {
-                getMarkers();
-            });
+	<head>
+		<title>Locate Store</title>
+		<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'main_template/css/main.css' %}" />
+        <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
         
-            // Get HTML5 geolocation.
-            if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-                };
+	</head>
+	<body class="subpage">
 
-                infoWindow.setPosition(pos);
-                infoWindow.setContent('Location found.');
-                infoWindow.open(map);
-                map.setCenter(pos);
-                map.setZoom(15)
-            }, function() {
-                handleLocationError(true, infoWindow, map.getCenter());
-                findStores();
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
-        }
+		<!-- Header -->
+			<header id="header">
+				<div class="logo"><a href="index.html">SPECTACLE <span>a VIRTUAL eyeglasses fitting</span></a></div>
+				<a href="#menu" class="toggle"><span>Menu</span></a>
+			</header>
 
-        function getMarkers(){
-            var service = new google.maps.places.PlacesService(map);
-            service.nearbySearch({
-            location: map.getCenter(),
-            radius: 5000,
-            type: ['store'],
-            keyword: 'glasses'
-            }, callback);
-        }
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="generic.html">Generic</a></li>
+					<li><a href="elements.html">Elements</a></li>
+				</ul>
+			</nav>
+        <section id="four" class="wrapper style3 location">
+            <div class="inner">
 
-        function callback(results, status) {
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-                for (var i = 0; i < results.length; i++) {
-                    createMarker(results[i]);
-                }
-            }
-        }
+                <header class="align-center">
+                    <h2>LOCATE A NEARBY STORE</h2>
+                    <p>Search your neighborhood for one our associated stores to try on in person.</p>
+                </header>
 
-        function createMarker(place) {
-            var placeLoc = place.geometry.location;
-            var marker = new google.maps.Marker({
-                map: map,
-                position: place.geometry.location
-            });
+            </div>
+        </section>
 
-            google.maps.event.addListener(marker, 'click', function() {
-                infoWindow.setContent(place.name);
-                infoWindow.open(map, this);
-            });
-        }
-        </script>
-    </head>
-    <body>
-        <div id="map"></div>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOk_7DVn9PK1OrEYC1WKEWk4ab1U8XTlc&libraries=places&callback=initMap" async defer></script>
-    </body>
+            
+        <!-- One -->
+        <section id="one" class="wrapper style2">
+            <div class="inner">
+                <div class="box">
+                    <div class="image fit">
+                        <div id="map"></div>
+                    </div>
+                    <div class="content">
+                        <header class="align-center">
+                            <div id="store-info"></div>
+                            <div id="right-panel"></div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+		<!-- Scripts -->
+			<script src="{% static 'main_template/js/jquery.min.js' %}"></script>
+			<script src="{% static 'main_template/js/jquery.scrolly.min.js' %}"></script>
+			<script src="{% static 'main_template/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'main_template/js/skel.min.js' %}"></script>
+			<script src="{% static 'main_template/js/util.js' %}"></script>
+            <script src="{% static 'main_template/js/main.js' %}"></script>
+            <script src="{% static 'main_template/js/drawmap.js' %}"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOk_7DVn9PK1OrEYC1WKEWk4ab1U8XTlc&libraries=places&callback=initMap" async defer></script>
+
+	</body>
 </html>
