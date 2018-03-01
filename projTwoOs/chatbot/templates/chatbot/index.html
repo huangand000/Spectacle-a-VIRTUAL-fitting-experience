@@ -1,118 +1,56 @@
+<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <style>
-                .mytext{
-            border:0;padding:10px;background:whitesmoke;
-        }
-        .text{
-            width:75%;display:flex;flex-direction:column;
-        }
-        .text > p:first-of-type{
-            width:100%;margin-top:0;margin-bottom:auto;line-height: 13px;font-size: 12px;
-        }
-        .text > p:last-of-type{
-            width:100%;text-align:right;color:silver;margin-bottom:-7px;margin-top:auto;
-        }
-        .text-l{
-            float:left;padding-right:10px;
-        }        
-        .text-r{
-            float:right;padding-left:10px;
-        }
-        .avatar{
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            width:25%;
-            float:left;
-            padding-right:10px;
-        }
-        .macro{
-            margin-top:5px;width:85%;border-radius:5px;padding:5px;display:flex;
-        }
-        .msj-rta{
-            float:right;background:whitesmoke;
-        }
-        .msj{
-            float:left;background:white;
-        }
-        .frame{
-            background:#e0e0de;
-            height:450px;
-            overflow:hidden;
-            padding:0;
-        }
-        .frame > div:last-of-type{
-            position:absolute;bottom:0;width:100%;display:flex;
-        }
-        body > div > div > div:nth-child(2) > span{
-            background: whitesmoke;padding: 10px;font-size: 21px;border-radius: 50%;
-        }
-        body > div > div > div.msj-rta.macro{
-            margin:auto;margin-left:1%;
-        }
-        ul {
-            width:100%;
-            list-style-type: none;
-            padding:18px;
-            position:absolute;
-            bottom:47px;
-            display:flex;
-            flex-direction: column;
-            top:0;
-            overflow-y:scroll;
-        }
-        .msj:before{
-            width: 0;
-            height: 0;
-            content:"";
-            top:-5px;
-            left:-14px;
-            position:relative;
-            border-style: solid;
-            border-width: 0 13px 13px 0;
-            border-color: transparent #ffffff transparent transparent;            
-        }
-        .msj-rta:after{
-            width: 0;
-            height: 0;
-            content:"";
-            top:-5px;
-            left:14px;
-            position:relative;
-            border-style: solid;
-            border-width: 13px 13px 0 0;
-            border-color: whitesmoke transparent transparent transparent;           
-        }  
-        input:focus{
-            outline: none;
-        }        
-        ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-            color: #d4d4d4;
-        }
-        ::-moz-placeholder { /* Firefox 19+ */
-            color: #d4d4d4;
-        }
-        :-ms-input-placeholder { /* IE 10+ */
-            color: #d4d4d4;
-        }
-        :-moz-placeholder { /* Firefox 18- */
-            color: #d4d4d4;
-        }  
-            
-    
-    </style>
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Page Title</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+      <script src="main.js"></script>
+      <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+      <script>
+         $(document).on('click', '.panel-heading span.icon_minim', function (e) {
+             var $this = $(this);
+             if (!$this.hasClass('panel-collapsed')) {
+                 $this.parents('.panel').find('.panel-body').slideUp();
+                 $this.addClass('panel-collapsed');
+                 $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+             } else {
+                 $this.parents('.panel').find('.panel-body').slideDown();
+                 $this.removeClass('panel-collapsed');
+                 $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+             }
+         });
+         $(document).on('focus', '.panel-footer input.chat_input', function (e) {
+             var $this = $(this);
+             if ($('#minim_chat_window').hasClass('panel-collapsed')) {
+                 $this.parents('.panel').find('.panel-body').slideDown();
+                 $('#minim_chat_window').removeClass('panel-collapsed');
+                 $('#minim_chat_window').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+             }
+         });
+         $(document).on('click', '#new_chat', function (e) {
+             var size = $( ".chat-window:last-child" ).css("margin-left");
+             size_total = parseInt(size) + 400;
+             alert(size_total);
+             var clone = $( "#chat_window_1" ).clone().appendTo( ".container" );
+             clone.css("margin-left", size_total);
+         });
+         $(document).on('click', '.icon_close', function (e) {
+             //$(this).parent().parent().parent().parent().remove();
+             $( "#chat_window_1" ).remove();
+         });
 
-    <script>
-        var me = {};
+
+
+
+
+
+
+
+var me = {};
         me.avatar = "https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-9/10612711_10152646869858210_6282026281604164554_n.jpg?oh=921a14a67ddd8960a5e9feba09e0878a&oe=5B459329";
 
         var you = {};
@@ -138,29 +76,35 @@
             var date = formatAMPM(new Date());
             
             if (who == "me"){
-                control = '<li style="width:100%">' +
-                                '<div class="msj macro">' +
-                                '<div class="avatar"><img class="img-circle" style="width:100%;" src="'+ me.avatar +'" /></div>' +
+                control = '<div class="row msg_container base_sent">'+
+                        '<div class="col-xs-10 col-md-10">'+
+                            '<div class="messages msg_sent">'+
+                            '<div class="avatar"><img class="img-circle" style="width:100%;" src="'+ me.avatar +'" /></div>' +
                                     '<div class="text text-l">' +
                                         '<p>'+ text +'</p>' +
                                         '<p><small>'+date+'</small></p>' +
                                     '</div>' +
                                 '</div>' +
-                            '</li>';                    
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
             }else{
-                control = '<li style="width:100%;">' +
-                                '<div class="msj-rta macro">' +
+                control = '<div class="row msg_container base_receive">'+
+                        '<div class="col-xs-10 col-md-10">'+
+                            '<div class="messages msg_sent">'+
+                                    '<div class="avatar"><img class="img-circle" style="width:100%;" src="'+ you.avatar +'" /></div>' +
                                     '<div class="text text-r">' +
                                         '<p>'+ text +'</p>' +
                                         '<p><small>'+date+'</small></p>' +
                                     '</div>' +
-                                '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="'+you.avatar+'" /></div>' +                                
-                        '</li>';
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
             }
             setTimeout(
                 function(){                        
                     $("ul").append(control).scrollTop($("ul").prop('scrollHeight'));
-                }, time);
+                }, 500);
             
         }
 
@@ -169,7 +113,7 @@
         }
 
         $(document).ready(function() {
-        $(".mytext").on("keydown", function(e){
+        $("#btn-input").on("keydown", function(e){
         var text = $(this).val();
         if ((e.which) == 13){
             $.ajax({
@@ -190,71 +134,186 @@
         }
         });
         });
+      </script>
+      <style>
+      body{
+    height:400px;
+    position: fixed;
+    bottom: 0;
+}
+.avatar{
+    width: 30px;
+    height: 30px;
+}
+.col-md-2, .col-md-10{
+    padding:0;
+}
+.panel{
+    margin-bottom: 0px;
+}
+.chat-window{
+    bottom:0;
+    position:fixed;
+    float:left;
+    margin-left:10px;
+}
+.chat-window > div > .panel{
+    border-radius: 5px 5px 0 0;
+}
+.icon_minim{
+    padding:2px 10px;
+}
+.msg_container_base{
+  background: #e5e5e5;
+  margin: 0;
+  padding: 0 10px 10px;
+  max-height:300px;
+  overflow-x:hidden;
+}
+.top-bar {
+  background: #666;
+  color: white;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.msg_receive{
+    padding-left:0;
+    margin-left:0;
+}
+.msg_sent{
+    padding-bottom:20px !important;
+    margin-right:0;
+}
+.messages {
+  background: white;
+  padding: 10px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  max-width:100%;
+}
+.messages > p {
+    font-size: 13px;
+    margin: 0 0 0.2rem 0;
+  }
+.messages > time {
+    font-size: 11px;
+    color: #ccc;
+}
+.msg_container {
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+}
+img {
+    display: block;
+    width: 100%;
+}
+.avatar {
+    position: relative;
+}
+.base_receive > .avatar:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid #FFF;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
 
-        //         $(document).ready(function() {
-        // var text = document.getElementsByClassName($(".mytext").val)
-        // $(".mytext").on("keydown", function(e){
+.base_sent {
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.base_sent > .avatar:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid white;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    box-shadow: 1px 1px 2px rgba(black, 0.2); // not quite perfect but close
+}
 
-        // console.log(text)
-        // // console.log($(".mytext").val())
-        // $.ajax({
-        //     url:"/chatbot/bot", 
-        //     method: "post",
-        //     data:{'input': $(".mytext").val()},
-        //     success: function(serverResponse){
-        //         // console.log("response:",serverResponse)
-        //         // console.log(response.content)
-        //     }
-        // })
-
-        // if ((e.keyCode || e.which) == 13){
-        // var text = $(this).val();
-        // if (text !== ""){
-        // insertChat("me", text);
-        // $(this).val('');
-        // }
-        // }
-        // });
-        // });
+.msg_sent > time{
+    float: right;
+}
 
 
 
-        $('body > div > div > div:nth-child(2) > span').click(function(){
-            $(".mytext").trigger({type: 'keydown', which: 13, keyCode: 13});
-        })
+.msg_container_base::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
 
-        //-- Clear Chat
-        resetChat();
+.msg_container_base::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
 
-        //-- Print Messages
-        // insertChat("me", "Hello bot...", 0);  
-        // insertChat("you", "Hi, Laurence", 1500);
-        // insertChat("me", "What would you like to talk about today?", 3500);
-        // insertChat("you", "Tell me a joke",7000);
-        // insertChat("me", "Spaceman: Computer! Computer! Do we bring battery?!", 9500);
-        // insertChat("you", "LOL", 12000);
+.msg_container_base::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
 
+.btn-group.dropup{
+    position:fixed;
+    left:0px;
+    bottom:0;
+}
+      </style>
+   </head>
+   <body>
+      <div class="container">
+         <div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left:1000px;">
+            <div class="col-xs-12 col-md-12">
+               <div class="panel panel-default">
+                  <div class="panel-heading top-bar">
+                     <div class="col-md-8 col-xs-8">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span> Chatbot</h3>
+                     </div>
+                     <div class="col-md-4 col-xs-4" style="text-align: right;">
+                        <a href="#"><span id="minim_chat_window" class="glyphicon glyphicon-minus icon_minim"></span></a>
+                        <a href="#"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a>
+                     </div>
+                  </div>
 
-        //-- NOTE: No use time on insertChat.
-    
-    </script>
-
-
-</head>
-<body>
-        <div class="col-sm-3 col-sm-offset-4 frame">
-                <ul></ul>
-                <div>
-                    <div class="msj-rta macro">                        
-                        <div class="text text-r" style="background:whitesmoke !important">
-                            <input class="mytext" placeholder="Type a message"/>
-                        </div> 
-    
-                    </div>
-                    <div style="padding:10px;">
-                        <span class="glyphicon glyphicon-share-alt"></span>
-                    </div>                
-                </div>
-            </div>       
-</body>
+                  <div class="panel-body msg_container_base">
+                        <ul></ul>
+                  </div>
+                  <div class="panel-footer">
+                     <div class="input-group">
+                        <input id="btn-input" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+                        <span class="input-group-btn">
+                        <button class="btn btn-primary btn-sm" id="btn-chat">Send</button>
+                        </span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="btn-group dropup">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-cog"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+               <li><a href="#" id="new_chat"><span class="glyphicon glyphicon-plus"></span> Novo</a></li>
+               <li><a href="#"><span class="glyphicon glyphicon-list"></span> Ver outras</a></li>
+               <li><a href="#"><span class="glyphicon glyphicon-remove"></span> Fechar Tudo</a></li>
+               <li class="divider"></li>
+               <li><a href="#"><span class="glyphicon glyphicon-eye-close"></span> Invisivel</a></li>
+            </ul>
+         </div>
+      </div>
+   </body>
 </html>

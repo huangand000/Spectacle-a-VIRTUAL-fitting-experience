@@ -6,7 +6,7 @@ import datetime
 import random
 
 def index(request):
-    return render(request,"chatbot/index2.html")
+    return render(request,"chatbot/index.html")
 
 @csrf_exempt
 def bot(request):
