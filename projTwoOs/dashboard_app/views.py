@@ -35,8 +35,6 @@ def get_wishlist(request):
         'glasses': glasses,
         'route': Snapshot.objects.filter(user_id=request.user.id)
     }
-
-    Snapshot.file_upload.create(file = "", user = User.objecst.get(id=id))
     return render(request, 'dashboard_app/wishlist.html', user_glasses)
 
 @login_required()
