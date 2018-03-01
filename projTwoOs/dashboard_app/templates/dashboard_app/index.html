@@ -11,6 +11,26 @@
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 		<script>
+        $( document ).ready(function() {
+                $twit = document.getElementsByClassName('twit')
+                $url = document.getElementsByClassName('url')
+                var i=0
+                    setInterval(function(){
+                        $('#content').html("")
+                        $('#content').append('<p>'+$twit[i].innerHTML+'</p>')
+                        $('#content').append('<a href='+$url[i]+' target="_blank" style="visibility:visible">'+$url[i]+'</a>')
+
+                        i++
+                        if(i==$twit.length){
+                            i=0
+                            $('#content').html("")
+                        }
+                    }
+                    ,5000)
+            })
+        </script>
+		
+		<script>
 		   $(document).on('click', '.panel-heading span.icon_minim', function (e) {
 			   var $this = $(this);
 			   if (!$this.hasClass('panel-collapsed')) {
@@ -312,10 +332,7 @@ img {
 							<header>
 								<h3>GLASSES TRENDS</h3>
 							</header>
-							<p>Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna a ullamcorper laoreet, lectus arcu</p>
-							<ul class="actions">
-								<li><a href="#" class="button alt">Learn More</a></li>
-							</ul>
+								<div id="content"></div>							
 						</div>
 						<div>
 							<header>
@@ -339,7 +356,7 @@ img {
 				</div>
 			</section>
 
-			<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left:1050px;">
+			<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left:75%;">
 				<div class="col-xs-12 col-md-12">
 				   <div class="panel panel-default">
 					  <div class="panel-heading top-bar" style="height:30px">
@@ -379,6 +396,14 @@ img {
 				   <li><a href="#"><span class="glyphicon glyphicon-eye-close"></span> Invisivel</a></li>
 				</ul>
 			 </div>
+			 <div id = 'server'>
+					{% for item in data %}
+					<ul class="table">
+							<li class="twit" style="display:none">{{item.0}}</li> 
+							<a href=//{{item.1}} target="_blank" class="url" style="display:none">{{item.1}}</a>
+					</ul>
+					{% endfor %}        
+				</div>
 
 
 		<!-- Footer -->
