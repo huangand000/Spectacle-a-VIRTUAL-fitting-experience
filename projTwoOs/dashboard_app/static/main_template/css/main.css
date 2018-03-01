@@ -1801,29 +1801,29 @@
 		background: #FFF;
 	}
 
+	.box .content {
+		padding: 0rem 3rem 1rem 3rem;
+	}
+
+	.box > :last-child,
+	.box > :last-child > :last-child,
+	.box > :last-child > :last-child > :last-child {
+		margin-bottom: 0;
+	}
+
+	.box.alt {
+		border: 0;
+		border-radius: 0;
+		padding: 0;
+	}
+
+	@media screen and (max-width: 736px) {
+
 		.box .content {
-			padding: 3rem;
+			padding: 2rem;
 		}
 
-		.box > :last-child,
-		.box > :last-child > :last-child,
-		.box > :last-child > :last-child > :last-child {
-			margin-bottom: 0;
-		}
-
-		.box.alt {
-			border: 0;
-			border-radius: 0;
-			padding: 0;
-		}
-
-		@media screen and (max-width: 736px) {
-
-			.box .content {
-				padding: 2rem;
-			}
-
-		}
+	}
 
 	.box {
 		border-color: rgba(144, 144, 144, 0.25);
@@ -3083,6 +3083,11 @@
 			background-position: center;
 			position: relative;
 		}
+		.wrapper.style3.wishlist{
+			background-image: url(../images/couple.jpg);
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
 		.wrapper.style3.location {
 			background-image: url(../images/glasseswall.jpg);
 			background-size: 130% 100%;
@@ -3879,21 +3884,24 @@
 		background: #f2f2f2;
 	}
 
-		#footer .copyright {
-			color: #bbb;
-			font-size: 0.9rem;
-			margin: 0 0 2rem 0;
-			padding: 0;
-			text-align: center;
+	#footer .copyright {
+		color: #bbb;
+		font-size: 0.9rem;
+		margin: 0 0 2rem 0;
+		padding: 0;
+		text-align: center;
+	}
+
+	@media screen and (max-width: 736px) {
+
+		#footer {
+			padding: 3rem 0 1rem 0 ;
 		}
 
-		@media screen and (max-width: 736px) {
-
-			#footer {
-				padding: 3rem 0 1rem 0 ;
-			}
-
-		}
+	}
+	#footerh2{
+		padding-top: 1.5rem;
+	}
 
 /* Flexgrid */
 
