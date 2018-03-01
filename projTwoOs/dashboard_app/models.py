@@ -16,3 +16,4 @@ class Glasses(models.Model):
 class Snapshot(models.Model):
     file_upload = models.FileField(upload_to='static/snapshots')
     user = models.ForeignKey(User, related_name='snapshots')
+    glasses_id = models.IntegerField()

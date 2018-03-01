@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
+from django.conf.urls.static import static
 from django.shortcuts import redirect
-
+import dashboard_app
+import os
 
 def index_redirect(request):
     if request.user.is_authenticated:
@@ -31,4 +32,5 @@ urlpatterns = [
     url(r'^auth/', include('authApp.urls')),
     url(r'^dashboard/', include('dashboard_app.urls')),
     url(r'^chatbot/', include('chatbot.urls')),
-]
+] + static('snap/', document_root=(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))))
+

@@ -21,25 +21,33 @@ def index(request):
 
 @login_required()
 def get_wishlist(request):
-    wishlist_str = request.user.wishlist
-    wishlist = json.loads(wishlist_str)
-    glasses = Glasses.objects.filter(pk__in=wishlist)
+    arr = []
+    snapshot = Snapshot.objects.filter(user_id = request.user.id)
+    for snap in snapshot:
+        g_id = snap.glasses_id
+        arr.append(g_id)
+    glasses = Glasses.objects.using('glasses').filter(id__in=arr)
+    snap = Snapshot.objects.filter(user_id=request.user.id)
+    for s in snap:
+        print s
+
     user_glasses = {
-        'glasses': glasses
+        'glasses': glasses,
+        'route': Snapshot.objects.filter(user_id=request.user.id)
     }
     return render(request, 'dashboard_app/wishlist.html', user_glasses)
 
 @login_required()
 def webcam(request):
     glasses = {
-        'glasses': Glasses.objects.using('glasses').all()
+        'glasses': Glasses.objects.using('glasses').all(),
     }
     return render(request, 'dashboard_app/webcam.html', glasses)
 
 # routes don't render
 
 @csrf_exempt
-@login_required()
+@login_required(login_url='/')
 def wishlist_process(request):
     id = request.POST.get('glasses_id')
     # below checks if this glasses id exists
@@ -57,7 +65,7 @@ def wishlist_process(request):
     return HttpResponse('saved to wishlist')
 
 @csrf_exempt
-@login_required()
+@login_required(login_url='/')
 def get_glasses(request):
     dict = {}
     glasses = Glasses.objects.using('glasses').all()
@@ -65,27 +73,29 @@ def get_glasses(request):
         dict[g.id] = g.route
     return JsonResponse(dict)
 
-@login_required()
+@login_required(login_url='/')
 def process(request, id):
     g = Glasses.objects.using('glasses').get(id=id)
     request.session['g_route'] = g.route
     return redirect('/dashboard/webcam')
 
 @csrf_exempt
-@login_required()
+@login_required(login_url='/')
 def save_snapshot(request):
     if request.method == 'POST':
+        print request.POST
+        print request.FILES
         form = UploadSnapshotForm(request.POST, request.FILES)
         if form.is_valid():
             imagefile = Snapshot.objects.create(
                 file_upload = form.cleaned_data.get('file'),
-                user = request.user
+                user = request.user, glasses_id = request.POST['glasses_id']
             )
             return HttpResponse('file uploaded')
         else:
             print form.errors
     return HttpResponse('failed')
 
-@login_required()
+@login_required(login_url='/')
 def find_store(request):
     return HttpResponse('store!')

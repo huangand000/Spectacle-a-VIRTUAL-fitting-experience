@@ -11,11 +11,15 @@
     <h2>{{request.user.name}}'s Wish list</h2>
     <h2>Pic of glasses</h2>
     {% for g in glasses %}
-    <ul>
-        <li>{{g.name}}</li>
-        <li>Cost</li>
-        <li>Store/Location</li>
-    </ul>
+        {% for r in route %}
+            {% if r.glasses_id == g.id %}
+                <img src=/snap/{{r.file_upload}}>
+                <p>{{g.name}}</p>
+                <p>Cost</p>
+                <p>Store/Location</p>
+                {% endif %}
+        {% endfor %}
     {% endfor %}
+
 </body>
 </html>
