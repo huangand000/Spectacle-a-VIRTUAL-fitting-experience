@@ -3,15 +3,14 @@
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title>Masks, face detection, canvas and webcams &mdash; Paul Hayes</title>
-        <meta name="author" content="Paul Hayes" />
+        <title>e-Try On Glasses</title>
+        <meta name="author" content="Andre Huang" />
         <link rel="stylesheet" href="/static/dashboard_app/css/styles.css" />
     </body>
   </html>     
 
 </head>
     <body>
-		
 		<!-- Header -->
         <header id="header">
 				<div class="logo"><a href="index.html">Transitive <span>by TEMPLATED</span></a></div>
@@ -33,7 +32,7 @@
 					<div class="box">
                         <div id='selection'></div>
                         <div class='camera'>
-                            <canvas id='source' width="400" height="320" class="mask" src='/static/dashboard_app/img/mask.png'></canvas>
+                            <canvas id='source' width="400" height="320" class="glasses" src='/static/dashboard_app/img/glasses.png'></canvas>
                             <button onclick='capture()'id='startbutton'>Take photo</button>
                             <button disabled=true id='save'>Save to Wish list</button>
                             <p id='saved'></p>
@@ -49,11 +48,9 @@
 		<!-- Four -->
 			<section id="four" class="wrapper style3">
 				<div class="inner">
-
 					<header class="align-center">
 						<h2>Find your perfect fit</h2>
 					</header>
-
 				</div>
 			</section>
 
@@ -80,13 +77,13 @@
                     content = document.querySelector('.transforming-content'),
                     canvas = document.querySelector('canvas'),
                     context = canvas.getContext('2d'),
-                    mask = new Image(),
+                    glasses = new Image(),
                     originalFace,
 
                     // Quick hack for two experiment types
                     SCALE_EXPERIMENT = 'scale',
-                    MASK_EXPERIMENT = 'mask',
-                    experimentType = /mask/.test(canvas.className) ? MASK_EXPERIMENT : SCALE_EXPERIMENT,
+                    glasses_EXPERIMENT = 'glasses',
+                    experimentType = /glasses/.test(canvas.className) ? glasses_EXPERIMENT : SCALE_EXPERIMENT,
 
                     // toString for older gUM implementation, see comments on https://gist.github.com/f2ac64ed7fc467ccdfe3
                     gUMOptions = {video: true, toString: function(){ return "video"; }};
@@ -107,7 +104,7 @@
                     name = this.getAttribute('name')
                     id = this.id
                     $('#save').attr("disabled", false)
-                    mask.src = "/static/dashboard_app/img/" + name;
+                    glasses.src = "/static/dashboard_app/img/" + name;
                 });
 
                 var blob= ''
@@ -132,15 +129,6 @@
                             console.log(res);
                         }
                     })
-                    // $.ajax({
-                    //     url: '/dashboard/wishlist_process/',
-                    //     method: 'post',
-                    //     data: {"glasses_id":id},
-                    //     success: function(serverResponse) {
-                    //         $("#saved").html("Saved "+$('#selection').data('name')+" in Wish List");
-                    //         // Add saved to webpage
-                    //     }
-                    // })
                 });
                 function dataURItoBlob(dataURI) {
                     // convert base64/URLEncoded data component to raw binary data held in a string
@@ -158,7 +146,7 @@
                     for (var i = 0; i < byteString.length; i++) {
                         ia[i] = byteString.charCodeAt(i);
                     }
-                return new Blob([ia], {type:mimeString});
+                    return new Blob([ia], {type:mimeString});
                 }
                 context.fillStyle = "rgba(0, 0, 200, 0.5)";
                 navigator.getUserMedia(gUMOptions, handleWebcamStream, errorStartingStream);
@@ -176,15 +164,15 @@
                 function processWebcamVideo() {
 
                     var startTime = +new Date(),
-                        changed = false,
-                        scaleFactor = 1,
-                        faces;
+                    changed = false,
+                    scaleFactor = 1,
+                    faces;
 
                     context.drawImage(video, 0, 0, canvas.width, canvas.height);
                     faces = detectFaces();
 
-                    if(experimentType === MASK_EXPERIMENT) {
-                        drawMasks(faces);
+                    if(experimentType === glasses_EXPERIMENT) {
+                        drawglassess(faces);
                     } else {
                         highlightFaces(faces);
 
@@ -205,14 +193,10 @@
                 }
 
                 function detectFaces() {
-                    // What do these parameters mean?
-                    // I couldn't find any documentation, and used what was found here:
-                    // https://github.com/liuliu/ccv/blob/unstable/js/index.html
-
                     return ccv.detect_objects({canvas : (ccv.pre(canvas)), cascade: cascade, interval: 2, min_neighbors: 1});
                 }
 
-                // Draw found faces onto the canvas
+                // Highlight found faces onto the canvas
                 function highlightFaces(faces) {
                     if(!faces) {
                         return false;
@@ -225,15 +209,15 @@
                     }
                 }
 
-                function drawMasks(faces) {
+                function drawglassess(faces) {
                     if(!faces) {
                         return false;
                     }
 
                     for (var i = 0; i < faces.length; i++) {
                         var face = faces[i];
-                        // Draw mask
-                        context.drawImage(mask, face.x * 0.9, face.y * 0.9, face.width * 1.3, face.height * 1.3);
+                        // Draw glasses
+                        context.drawImage(glasses, face.x * 0.9, face.y * 0.9, face.width * 1.3, face.height * 1.3);
                     }
                 }
 

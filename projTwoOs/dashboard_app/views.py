@@ -83,8 +83,6 @@ def process(request, id):
 @login_required(login_url='/')
 def save_snapshot(request):
     if request.method == 'POST':
-        print request.POST
-        print request.FILES
         form = UploadSnapshotForm(request.POST, request.FILES)
         if form.is_valid():
             imagefile = Snapshot.objects.create(

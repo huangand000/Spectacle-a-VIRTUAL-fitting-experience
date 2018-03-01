@@ -15,8 +15,8 @@
             {% if r.glasses_id == g.id %}
                 <img src=/snap/{{r.file_upload}}>
                 <p>{{g.name}}</p>
-                <p>Cost</p>
-                <p>Store/Location</p>
+                <p>Price: ${{g.price}}</p>
+                <p>Store: {{g.store}}</p>
                 {% endif %}
         {% endfor %}
     {% endfor %}
