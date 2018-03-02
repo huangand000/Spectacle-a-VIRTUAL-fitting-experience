@@ -14,7 +14,7 @@ def bot(request):
     CONVERSING = True
     memory = []
     response =''
-
+    merchant_name = ''   
     greetings = ['Hola', 'Hello', 'hi','hey!','Hello','Hi','Ni Hao']
     
     joke = [
@@ -26,6 +26,11 @@ def bot(request):
         "I poured root beer in a square glass.Now I just have beer."]
     joke_question = ['joke']
 
+    
+    if any(word in userInput for word in ['return','exchange']):
+        merchant_name = userInput.split('policy')[1].split('of')[1].replace("?","")
+    elif any(word in userInput for word in ['exchange policy']):
+        merchant_name = userInput.split('exchange')[0].split("'s")
 
     love = ['love you']
     loveResponse = ['I love you,too']
@@ -59,11 +64,17 @@ def bot(request):
             response = random.choice(greetings_response)
             # say(response)
             CONVERSING = False
+        elif any(word in userInput for word in ['return','exchange']):
+            if any(word in userInput for word in ['return']):
+                response = merchant_name+"'s return policy can be found at www."+  merchant_name+".com/return"
+                CONVERSING = False
+            elif any(word in userInput for word in ['exchange']):
+                response = merchant_name+"'s exchange policy can be found at www."+  merchant_name+".com/exchange"
+                CONVERSING = False
         elif any(word in userInput for word in joke_question):
             response = random.choice(joke)
             # say(response)
             CONVERSING = False
-
         elif any(word in userInput for word in having_questions):
             response = question_response
             # say(response)
