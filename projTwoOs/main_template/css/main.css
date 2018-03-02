@@ -4260,7 +4260,7 @@
 		#right-panel {
 			font-family: 'Roboto','sans-serif';
 			line-height: 30px;
-			padding-left: 10px;
+			padding: 0 10px;
 		}
 		
 		#right-panel select, #right-panel input {
@@ -4285,7 +4285,7 @@
 		#store-info{ 
 			font-family: 'Roboto','sans-serif';
 			line-height: 30px;
-			padding-left: 10px;
+			padding: 5px 10px 0px 10px;
 			height: 100%;
 			display: inline-block;
 			vertical-align: top;
@@ -4311,9 +4311,29 @@
 		.wrapper.style3.webcam{
 			padding-top: 3rem;
 			background-color: white;
-			background-image: url(../images/tryon3.jpg);		
+			background-image: url(../images/tryon3.jpg);
+			background-size: cover;	
+			height: 100%;
 		}
 
+		.wrapper.style2.location{
+			background-image: url(../images/group.jpg);
+
+
+		}
+		inner.location{
+			text-align: center;
+		}
+		.box.location{
+			height: auto;
+			background: transparent;
+		}
+		.content.location{
+			background: transparent;
+		}
+		#store-info.location{
+			background: transparent;
+		}
 		#flexgrid.cameraflex > *{
 			padding: 2rem;
 			width: 50%;
@@ -4328,3 +4348,7 @@
 			text-align: center;
 			height: 327px;
 		}
+		#right-panel{
+			background: white;
+		}
+

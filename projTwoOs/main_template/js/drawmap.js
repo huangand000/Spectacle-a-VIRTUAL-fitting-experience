@@ -295,6 +295,8 @@ function getStoreInfo(){
             for (var time in place.opening_hours.weekday_text) {
                 $('#store-info').append('<p>' +place.opening_hours.weekday_text[time] +'</p>');
             }
+            $('#store-info').css('background','white');
+
         }
     }); 
 }
