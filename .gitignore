@@ -1,10 +1,15 @@
 venv/
 *.pyc
+<<<<<<< HEAD
 .DS_Store
 version/
 
 projTwoOs/db.sqlite3
 projTwoOs/static/snapshots/*
+=======
+db.sqlite3
+.DS_Store
+>>>>>>> 34b252cdf86cbc7f8866e69312d77c72093b4076
 
 projTwoOs/authApp/migrations/*
 !projTwoOs/authApp/migrations/__init__.py
