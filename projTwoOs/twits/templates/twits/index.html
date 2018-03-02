@@ -8,16 +8,39 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $( document ).ready(function() {
+                $twit = document.getElementsByClassName('twit')
+                $url = document.getElementsByClassName('url')
+                var i=0
+                    setInterval(function(){
+                        $('#content').html("")
+                        $('#content').append('<p>'+$twit[i].innerHTML+'</p>')
+                        $('#content').append('<a href='+$url[i]+' target="_blank" style="visibility:visible">'+$url[i]+'</a>')
+
+                        i++
+                        if(i==$twit.length){
+                            i=0
+                            $('#content').html("")
+                        }
+                    }
+                    ,5000)
+            })
+        </script>
+
 </head>
 <body>
-        <div id = 'twits'>
+        <div id = 'server'>
                 {% for item in data %}
-                <ul>
-                    <li>{{item.0}}</li> 
-                    <a href=//{{item.1}} target="_blank">{{item.1}}</a>
+                <ul class="table">
+                    <li class="twit" style="display:none">{{item.0}}</li> 
+                    <a href=//{{item.1}} target="_blank" class="url" style="display:none">{{item.1}}</a>
                 </ul>
-                {% endfor %}
+                {% endfor %}        
+        </div>
+        <div id="content">
 
         </div>
+
 </body>
 </html>

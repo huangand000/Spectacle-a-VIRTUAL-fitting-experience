@@ -8,6 +8,7 @@ from django.http import JsonResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
+from twitter import *
 
 from forms import *
 from models import *
@@ -17,7 +18,27 @@ User = get_user_model()
 
 @login_required(login_url='/')
 def index(request):
-    return render(request, 'dashboard_app/index.html')
+    t = Twitter(
+        auth=OAuth('2990475133-m93dLsG6UoGtzm6aHSq89xmX1Z2Ysa8anGuCPU5', 'hk1cMw7EqwAVANozQNjMRVgqacoiGGQ2FVTaHmvsJjTuU', 'bnqpiVEnkqnOlfQFbxJHBJjoM', 'lcODwzLhRZV4OgHFxlaZphdT5IQGbas64ZsSiTCwbbpflazcJW')
+        )
+
+    tweets = t.search.tweets(q='#glasses trend', result_type='mixed', lang='en',include_entities='false')
+
+    dictFinal = []
+    for items in range(0,len(tweets['statuses'])):
+        dictInter = []
+        twits=(tweets['statuses'][items]['text'].split('http')[0])
+        url=(tweets['statuses'][items]['text'].split('http')[1].split('s://')[1])
+        dictInter.append(twits)
+        dictInter.append(url)
+        dictFinal.append(dictInter)
+        dictInter = []
+
+    context = {
+        'data':dictFinal
+        }     
+
+    return render(request, 'dashboard_app/index.html',context)
 
 @login_required(login_url='/')
 def get_wishlist(request):
@@ -98,6 +119,7 @@ def save_snapshot(request):
 def find_store(request):
     return render(request, 'dashboard_app/findstore.html')
 
+@login_required(login_url='/')
 def delete(request, id):
     Snapshot.objects.get(id=id).delete()
     return redirect('/dashboard/wishlist')

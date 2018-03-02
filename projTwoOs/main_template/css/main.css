@@ -3452,14 +3452,14 @@
 		}
 
 			#header > .logo a {
-				font-size: 1.25rem;
+				font-size: 2.0rem;
 				color: #FFF;
 				text-decoration: none;
 			}
 
 			#header > .logo span {
 				font-weight: 300;
-				font-size: .75rem;
+				font-size: 1.0rem;
 				color: rgba(255, 255, 255, 0.5);
 			}
 
@@ -3537,7 +3537,7 @@
 			box-shadow: none;
 			overflow: hidden;
 			position: absolute;
-			top: 1.5em;
+			top: 0.8em;
 		}
 
 			#header.alt h1 {
@@ -3751,7 +3751,7 @@
 		}
 
 		#banner h1 {
-			font-size: 4rem;
+			font-size: 8rem;
 			margin-bottom: 1rem;
 			color: #FFF;
 		}
