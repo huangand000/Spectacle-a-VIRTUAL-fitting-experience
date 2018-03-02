@@ -3290,6 +3290,13 @@
 
 		.wrapper.style3 header p {
 			color: #999999;
+			z-index: 1;
+		}
+
+		.wrapper.style3 header h2 {
+			color: white;
+			z-index: 1;
+			position:relative;
 		}
 
 		.wrapper.style3 table tbody tr {
