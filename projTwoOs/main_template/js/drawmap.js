@@ -1,3 +1,4 @@
+
 var map;
 var infowindow;
 var userCoord = null;
@@ -268,7 +269,8 @@ function createMarker(place) {
     var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
         map: map,
-        position: place.geometry.location
+        position: place.geometry.location,
+        icon: 'http://78.media.tumblr.com/79da25ec86a0a2ebf2682d9293699589/tumblr_inline_mp96bkTV0w1qz4rgp.gif'
     });
 
     google.maps.event.addListener(marker, 'click', function() {
