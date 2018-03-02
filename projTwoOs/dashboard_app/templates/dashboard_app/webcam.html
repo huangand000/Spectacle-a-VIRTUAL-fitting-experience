@@ -13,8 +13,8 @@
 </head>
     <body>
 		<!-- Header -->
-        <header id="header">
-            <div class="logo"><a href="/dashboard">SPECTACLE <span>a VIRTUAL eyeglasses fitting</span></a></div>
+        <header id="header" class="page">
+                <div class="logo"><a href="/dashboard">SPECTACLE <span>a VIRTUAL fitting experience</span></a></div>
             <a href="#menu" class="toggle"><span>Menu</span></a>
         </header>
 
@@ -36,7 +36,7 @@
                     <div id="flexgrid" class="cameraflex">
                         <div id="cameradiv">                              
                             <div class='camera'>
-                                <canvas id='source' width="400" height="320" class="glasses" src='/static/dashboard_app/img/glasses.png'></canvas>
+                                <canvas id='source' width="400" height="320" class="glasses"></canvas>
                                 <br>
                                 <button onclick='capture()'id='startbutton'>Take photo</button>
                                 <form action='/dashboard/wishlist/'>

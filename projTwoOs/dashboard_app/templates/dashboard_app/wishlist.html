@@ -11,7 +11,7 @@
 </head>
 <body class="subpage">
 <!-- Header -->
-    <header id="header">
+    <header id="header" class="page">
         <div class="logo"><a href="/dashboard">SPECTACLE <span>a VIRTUAL fitting experience</span></a></div>
         <a href="#menu" class="toggle"><span>Menu</span></a>
     </header>
@@ -29,7 +29,7 @@
     </nav>
 
     <section id="four" class="wrapper style3 wishlist">
-        <div class="inner">
+        <div id="inner">
             <header class="align-center">
                 <h2>{{request.user.name}}'s Wish list</h2>                
                 <p>Don't be careful for what you wish for here, because we guarantee you will love your new look.</p>
@@ -38,7 +38,7 @@
     </section>
 
     <section id="three" class="wrapper style2">
-        <div class="inner">
+        <div id="inner">
             <div class="grid-style">
                 {% for g in glasses %}
                 {% for r in route %}

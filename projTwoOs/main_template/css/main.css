@@ -1634,8 +1634,7 @@
 	}
 
 	body, input, select, textarea {
-		font-family: "Taviraj", serif;
-		font-weight: 300;
+		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;		font-weight: 300;
 		font-size: 1rem;
 		line-height: 1.65;
 	}
@@ -1810,6 +1809,7 @@
 	.box > :last-child > :last-child > :last-child {
 		margin-bottom: 0;
 		padding: 30px;
+		text-align: center;
 	}
 
 	.box.alt {
@@ -2654,7 +2654,8 @@
 		margin: 0;
 	}
 
-		.wrapper > .inner {
+	
+		#inner{
 			margin: 0 auto;
 			width: 80rem;
 		}
@@ -3435,6 +3436,12 @@
 		top: 0;
 		width: 100%;
 		z-index: 10001;
+	}
+	#header.page > .logo a{
+		font-size: 2rem;
+	}
+	#header.page > .logo span {
+		font-size: 1rem;
 	}
 
 		#header .toggle span {
