@@ -1,12 +1,16 @@
 <!DOCTYPE HTML>
-
+<!--
+	Transitive by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
 <html>
 	<head>
 		<title>SPECTACLE</title>
 		<meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {% load static %}
-		<link rel="stylesheet" href="{% static 'main_template/css/main.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/main.css' %}" />
 		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
@@ -256,7 +260,7 @@ img {
     border: 5px solid white;
     border-right-color: transparent;
     border-top-color: transparent;
-    box-shadow: 1px 1px 2px rgba(black, 0.2); // not quite perfect but close
+    box-shadow: 1px 1px 2px rgba(black, 0.2);
 }
 
 .msg_sent > time{
@@ -301,7 +305,7 @@ img {
 			</header>
 
 		<!-- Nav -->
-		<nav id="menu">
+			<nav id="menu">
 				<ul class="links">
 					<li><a href="/dashboard">Home</a></li>
 					<li><a href="/dashboard/webcam">E-Try On</a></li>
@@ -309,13 +313,14 @@ img {
 					<li><a href="/auth/logout">Logout</a></li>
 				</ul>
 			</nav>
+
 		<!-- Banner -->
 		<!--
 			To use a video as your background, set data-video to the name of your video without
 			its extension (eg. images/banner). Your video must be available in both .mp4 and .webm
 			formats to work correctly.
 		-->
-			<section id="banner" class="bannervid" data-video="{% static 'main_template/images/eyewear2' %}">
+			<section id="banner" class="bannervid" data-video="{% static 'images/eyewear2' %}">
 				<div class="inner">
 					<h1>SPECTACLE</h1>
 					<p>Find your perfect fit.</p>
@@ -404,7 +409,6 @@ img {
 					{% endfor %}        
 				</div>
 
-
 		<!-- Footer -->
 			<footer id="footer" class="wrapper">
 				<div class="inner">
@@ -424,12 +428,12 @@ img {
 			</footer>
 
 		<!-- Scripts -->
-			<script src="{% static 'main_template/js/jquery.min.js' %}"></script>
-			<script src="{% static 'main_template/js/jquery.scrolly.min.js' %}"></script>
-			<script src="{% static 'main_template/js/jquery.scrollex.min.js' %}"></script>
-			<script src="{% static 'main_template/js/skel.min.js' %}"></script>
-			<script src="{% static 'main_template/js/util.js' %}"></script>
-			<script src="{% static 'main_template/js/main.js' %}"></script>
+			<script src="{% static 'js/jquery.min.js' %}"></script>
+			<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+			<script src="{% static 'js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'js/skel.min.js' %}"></script>
+			<script src="{% static 'js/util.js' %}"></script>
+			<script src="{% static 'js/main.js' %}"></script>
 
 	</body>
 </html>
