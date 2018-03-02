@@ -36,5 +36,4 @@ urlpatterns = [
     url(r'^chatbot/', include('chatbot.urls')),
     url(r'^twitter/', include('twits.urls')),
 ] + static('snap/', document_root=(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))))
-print os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))+"/authApp"
 
