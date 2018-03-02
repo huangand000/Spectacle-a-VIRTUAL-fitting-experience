@@ -1,32 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPECTACLE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+{% load static %}
+<link rel="stylesheet" href="/snap/authApp/templates/static/main_template/css/style.css" />
+<link rel="stylesheet" href="/snap/authApp/templates/static/main_template/css/font-awesome.css" />
+<link href="//fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext" rel="stylesheet">
+
 </head>
 <body>
-    <form action='/auth/login' method='post'>
-        {% csrf_token %}
-        <input type='text' name='username' placeholder="Username" />
-        <br />
-        <input type="password" name="password" placeholder="Password" />
-        <br />
-        <input type="submit" value="Login">
-    </form>
-    <p>
-        Don't have an account? <a href='/auth/register'>Click here to register.</a>
-    </p>
-    {% if messages %}
-    <div>
-        <h4>Error messages:</h4>
-        {% for m in messages %}
-        <p>
-            {{m}}
-        </p>
-        {% endfor %}
-    </div>
-    {% endif %}
+	<!-- main -->
+	<div class="main">
+            <header id="header">
+                    <div class="logo"><a href="/" style="font-family: FontAwesome;">SPECTACLE  <span>a VIRTUAL eyeglasses fitting</span></a></div>
+                </header>
+		<div class="main-w3lsrow" style="margin-top:100px">
+			<!-- login form -->
+			<div class="login-form login-form-left"> 
+				<div class="agile-row">
+					<h2>Login</h2>
+					<!-- <span class="fa fa-lock"></span> -->
+					<div class="clear"></div>
+					<div class="login-agileits-top"> 	
+                            <form action='/auth/login' method='post'>
+                                {% csrf_token %}
+                                <input type='text' name='username' placeholder="Username" />
+                                <br />
+                                <input type="password" name="password" placeholder="Password" />
+                                <br />
+                                <input type="submit" value="Login">
+                            </form>
+                            <p>
+                                Don't have an account? <a href='/auth/register'>Click here to register.</a>
+                            </p>
+                            {% if messages %}
+                            <div>
+                                <h4>Error messages:</h4>
+                                {% for m in messages %}
+                                <p>
+                                    {{m}}
+                                </p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}                        
+
+					</div> 
+					<div class="login-agileits-bottom"> 
+						<h6><a href="#">Forgot password?</a></h6>
+					</div> 
+
+				</div>  
+			</div>  
+		</div>	
+		
+					<div class="login-agileits-bottom1"> 
+						<h3>or login with</h3>
+					</div> 
+					<div class="social_icons agileinfo">
+						<ul class="top-links">
+									<li><a href="#" class="facebook"><i class="fa fa-facebook"></i>facebook</a></li>
+									<li><a href="#" class="twitter"><i class="fa fa-twitter"></i>twitter</a></li>
+									<li><a href="#" class="linkedin"><i class="fa fa-linkedin"></i>linkedin</a></li>
+								</ul>
+					</div>
+		
+	</div>	
+	<!-- //main --> 
 </body>
 </html>

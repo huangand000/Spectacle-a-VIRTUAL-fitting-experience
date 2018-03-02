@@ -16,14 +16,14 @@
                 $url = document.getElementsByClassName('url')
                 var i=0
                     setInterval(function(){
-                        $('#content').html("")
-                        $('#content').append('<p>'+$twit[i].innerHTML+'</p>')
-                        $('#content').append('<a href='+$url[i]+' target="_blank" style="visibility:visible">'+$url[i]+'</a>')
+                        $('#trend').html("")
+                        $('#trend').append('<p>'+$twit[i].innerHTML+'</p>')
+                        $('#trend').append('<a href='+$url[i]+' target="_blank" style="visibility:visible">'+$url[i]+'</a>')
 
                         i++
                         if(i==$twit.length){
                             i=0
-                            $('#content').html("")
+                            $('#trend').html("")
                         }
                     }
                     ,5000)
@@ -331,7 +331,7 @@ img {
 							<header>
 								<h3>GLASSES TRENDS</h3>
 							</header>
-								<div id="content"></div>							
+								<div id="trend"></div>							
 						</div>
 						<div>
 							<header>
@@ -355,11 +355,8 @@ img {
 				</div>
 			</section>
 
-<<<<<<< HEAD
-			<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left:75%;">
-=======
+
 			<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left: 78%;">
->>>>>>> 889a4b1c3163609d1c1d654b7e694d25a549111a
 				<div class="col-xs-12 col-md-12">
 				   <div class="panel panel-default">
 					  <div class="panel-heading top-bar" style="height:30px">
