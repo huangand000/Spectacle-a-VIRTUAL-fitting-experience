@@ -20,14 +20,14 @@
                 $url = document.getElementsByClassName('url')
                 var i=0
                     setInterval(function(){
-                        $('#content').html("")
-                        $('#content').append('<p>'+$twit[i].innerHTML+'</p>')
-                        $('#content').append('<a href='+$url[i]+' target="_blank" style="visibility:visible">'+$url[i]+'</a>')
+                        $('#trend').html("")
+                        $('#trend').append('<p>'+$twit[i].innerHTML+'</p>')
+                        $('#trend').append('<a href='+$url[i]+' target="_blank" style="visibility:visible">'+$url[i]+'</a>')
 
                         i++
                         if(i==$twit.length){
                             i=0
-                            $('#content').html("")
+                            $('#trend').html("")
                         }
                     }
                     ,5000)
@@ -310,6 +310,7 @@ img {
 					<li><a href="/dashboard">Home</a></li>
 					<li><a href="/dashboard/webcam">E-Try On</a></li>
 					<li><a href="/dashboard/wishlist">Wishlist</a></li>
+					<li><a href="/dashboard/find_store">Locate a Store</a></li>
 					<li><a href="/auth/logout">Logout</a></li>
 				</ul>
 			</nav>
@@ -336,7 +337,7 @@ img {
 							<header>
 								<h3>GLASSES TRENDS</h3>
 							</header>
-								<div id="content"></div>							
+								<div id="trend"></div>							
 						</div>
 						<div>
 							<header>
@@ -360,6 +361,10 @@ img {
 				</div>
 			</section>
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 6f02bdbbaeba11c4c6ffabcd5bb8d01b533f5b42
 			<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left: 78%;">
 				<div class="col-xs-12 col-md-12">
 				   <div class="panel panel-default">
@@ -422,7 +427,7 @@ img {
 						</div>
 					</section>
 					<div class="copyright">
-						&copy; Untitled Design: <a href="https://templated.co/">TEMPLATED</a>. Images <a href="https://unsplash.com/">Unsplash</a>. Video <a href="http://coverr.co/">Coverr</a>.
+						&copy; Design: <a href="https://templated.co/">TEMPLATED</a>. Images <a href="https://unsplash.com/">Unsplash</a>. Video <a href="http://coverr.co/">Coverr</a>.
 					</div>
 				</div>
 			</footer>

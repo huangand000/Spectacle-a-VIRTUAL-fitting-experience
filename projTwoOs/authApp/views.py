@@ -6,14 +6,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib.auth import login as ulogin, logout as ulogout, authenticate
 from forms import *
 
 import bcrypt
 
-# Create your views here.
-
+@csrf_exempt
 def register(request):
     if request.user.is_authenticated:
         return redirect('/dashboard')
@@ -32,6 +32,7 @@ def register(request):
         ulogin(request, user) # user logged in
     return redirect('/dashboard')
 
+@csrf_exempt
 def login(request):
     if request.user.is_authenticated:
         return redirect('/dashboard')

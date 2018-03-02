@@ -17,14 +17,28 @@ def bot(request):
 
     greetings = ['Hola', 'Hello', 'hi','hey!','Hello','Hi','Ni Hao']
     
+    joke = [
+        "I told my girlfriend she drew her eyebrows too high. She seemed surprised.",
+        "I bought some shoes from a drug dealer. I don't know what he laced them with, but I've been tripping all day.",
+        "Two clowns are eating a cannibal. One turns to the other and says 'I think we got this joke wrong'",
+        "My wife told me I had to stop acting like a flamingo. So I had to put my foot down.",
+        "What's the difference between in-laws and outlaws? Outlaws are wanted.",
+        "I poured root beer in a square glass.Now I just have beer."]
+    joke_question = ['joke']
+
+
+    love = ['love you']
+    loveResponse = ['I love you,too']
+
+
     greetings_questions = ['how are you?','how are you doing?','how are you','how are you doing']
     greetings_response= ['Okay','I am fine!','I am doing great!']
     
     having_questions = ['a question']
     question_response = ['How can I help you?']
 
-    time_question = ['time is']
-    time_response = ['It is now '+datetime.datetime.now().strftime('%H:%M')]
+    time_question = ['time is',"what's the time",'what is the time']
+    time_response = ['It is now '+datetime.datetime.now().strftime("%I:%M %p")]
 
     validations = ['yes','yeah','yea','no','No','Nah','nah']
     verifications = ['Are you sure?','You sure?','you sure?','sure?',"Sure?"]
@@ -45,6 +59,11 @@ def bot(request):
             response = random.choice(greetings_response)
             # say(response)
             CONVERSING = False
+        elif any(word in userInput for word in joke_question):
+            response = random.choice(joke)
+            # say(response)
+            CONVERSING = False
+
         elif any(word in userInput for word in having_questions):
             response = question_response
             # say(response)
@@ -53,13 +72,16 @@ def bot(request):
             response = time_response
             # say(response)
             CONVERSING = False
+        elif any(word in userInput for word in love):
+            response = loveResponse
+            # say(response)
+            CONVERSING = False
         elif any(word in userInput for word in thanks):
             response = thanks_response
             # say(response)
             CONVERSING = False
         elif any(word in (userInput) for word in storeQuestions):
             response = storInfo
-            # say(response)
             CONVERSING = False
         elif userInput in verifications:
             random_response = random.choice(validations)

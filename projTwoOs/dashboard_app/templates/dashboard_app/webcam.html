@@ -24,6 +24,7 @@
 					<li><a href="/dashboard">Home</a></li>
 					<li><a href="/dashboard/webcam">E-Try On</a></li>
                     <li><a href="/dashboard/wishlist">Wishlist</a></li>
+                    <li><a href="/dashboard/find_store">Locate a Store</a></li>
                     <li><a href="/auth/logout">Logout</a></li>
 				</ul>
 			</nav>
@@ -153,13 +154,17 @@
                 navigator.getUserMedia(gUMOptions, handleWebcamStream, errorStartingStream);
 
                 function handleWebcamStream(stream) {
-
-                    video.src = (window.URL && window.URL.createObjectURL) ? window.URL.createObjectURL(stream) : stream;
+                    if (window.URL && window.URL.createObjectURL) {
+                        video.src = window.URL.createObjectURL(stream);
+                    } else {
+                        video.src = stream;
+                    }
+                    // video.src = (window.URL && window.URL.createObjectURL) ? window.URL.createObjectURL(stream) : stream;
                     processWebcamVideo();
                 }
 
                 function errorStartingStream() {
-                    alert('Uh-oh, the webcam didn\'t start. Do you have a webcam? Did you give it permission? Refresh to try again.');
+                    alert('The webcam didn\'t start. Do you have a webcam? Did you give it permission? Refresh to try again.');
                 }
 
                 function processWebcamVideo() {

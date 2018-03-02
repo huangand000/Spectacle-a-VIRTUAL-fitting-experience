@@ -1809,6 +1809,7 @@
 	.box > :last-child > :last-child,
 	.box > :last-child > :last-child > :last-child {
 		margin-bottom: 0;
+		padding: 30px;
 	}
 
 	.box.alt {
@@ -3452,14 +3453,14 @@
 		}
 
 			#header > .logo a {
-				font-size: 2.0rem;
+				font-size: 3.0rem;
 				color: #FFF;
 				text-decoration: none;
 			}
 
 			#header > .logo span {
 				font-weight: 300;
-				font-size: 1.0rem;
+				font-size: 1.4rem;
 				color: rgba(255, 255, 255, 0.5);
 			}
 
