@@ -1,4 +1,4 @@
-1) Create folder you want to clone our project in
+1) Create your desired folder to clone our project
 
 2) Enter the folder
 
