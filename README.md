@@ -17,7 +17,7 @@ Features:
 
 5) source projectEnv/bin/activate (To initialize Virtual Environment)
 
-6) pip install requirements.txt (Install all necessary packages to run project) 
+6) pip install -r requirements.txt (Install all necessary packages to run project) 
 
 8) python manage.py makemigrations
 
