@@ -28,7 +28,7 @@ def index(request):
     for items in range(0,len(tweets['statuses'])):
         dictInter = []
         twits=(tweets['statuses'][items]['text'].split('http')[0])
-        url=(tweets['statuses'][items]['text'].split('http')[1].split('s://')[1])
+        url=(tweets['statuses'][items]['text'].split('http')[0].split('s://')[0])
         dictInter.append(twits)
         dictInter.append(url)
         dictFinal.append(dictInter)
