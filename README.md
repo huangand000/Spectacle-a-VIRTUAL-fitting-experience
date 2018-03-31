@@ -13,7 +13,7 @@ Features:
 
 To Use:
 ============
-1) Create your desired folder to clone our project
+1) Create your desired folder to git clone our project
 
 2) Enter the folder
 
@@ -31,4 +31,4 @@ To Use:
 
 10) python manage.py runserver
 
-11) Open localhost://8000 to see project!
+11) Open localhost:8000 to see project!
