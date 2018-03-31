@@ -10,7 +10,8 @@ Features:
 - Added a Chatbot that allows dynamic interaction with the user
 - Beautiful responsive design using CSS3
 
-To use:
+
+To Use:
 ============
 1) Create your desired folder to clone our project
 
