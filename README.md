@@ -4,6 +4,7 @@ A full web application built with Python using the Django framework and SQLite d
 
 
 Features:
+=========
 - Implemented live webcam face detection with glasses overlay
 - Incorporated Google maps/places/directions API to find nearest eyeglasses store location and directions
 - Included Twitter API to display top 10 eyewear trends 
