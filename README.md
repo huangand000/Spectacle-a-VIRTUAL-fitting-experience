@@ -1,4 +1,7 @@
-SPECTACLE a VIRTUAL fitting experience is a A full web application built with Python using the Django framework and SQLite database that allows the user to virtually try on glasses through their webcam in the comfort of their own home in a matter of seconds!
+SPECTACLE a VIRTUAL fitting experience
+============
+A full web application built with Python using the Django framework and SQLite database that allows the user to virtually try on glasses through their webcam in the comfort of their own home in a matter of seconds!
+
 
 Features:
 - Implemented live webcam face detection with glasses overlay
